@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.NFTsList;
 
-namespace WebApplication1.Auth
+namespace WebApplication1.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
@@ -13,5 +14,6 @@ namespace WebApplication1.Auth
         {
             base.OnModelCreating(builder);
         }
+        public DbSet<Artwork> Artworks { get; set; }
     }
 }

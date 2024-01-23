@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.NFTsList;
+using WebApplication1.Data;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ArtworkController : ControllerBase
 {
-    private readonly ApplicationDbContextOfNFTs _context;
+    private readonly ApplicationDbContext _context;
 
-    public ArtworkController(ApplicationDbContextOfNFTs context)
+    public ArtworkController(ApplicationDbContext context)
     {
         _context = context;
     }
