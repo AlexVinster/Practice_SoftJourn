@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebApplication1.Data;
+using WebApplication1.NFTsList;
 
 namespace WebApplication1.Controllers
 {
@@ -15,7 +17,6 @@ namespace WebApplication1.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
-
 
         public AuthenticateController(
             UserManager<IdentityUser> userManager,
