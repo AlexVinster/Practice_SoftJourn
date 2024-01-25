@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Interfaces;
-using WebApplication1.NFTsList;
 using WebApplication1.Models.DTOs;
-using AutoMapper;
-
+using WebApplication1.NFTsList;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,53 +18,57 @@ public class NFTController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Artwork>>> GetAllArtworks()
+    public async Task<ActionResult<IEnumerable<ArtworkDto>>> GetAllArtworks()
     {
         var artworks = await _nftService.GetAllArtworks();
-        return Ok(artworks);
+        var artworkDtos = _mapper.Map<IEnumerable<ArtworkDto>>(artworks);
+        return Ok(artworkDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Artwork>> GetArtworkById(int id)
+    public async Task<ActionResult<ArtworkDto>> GetArtworkById(int id)
     {
         var artwork = await _nftService.GetArtworkById(id);
 
         if (artwork == null)
             return NotFound();
 
-        return Ok(artwork);
+        var artworkDto = _mapper.Map<ArtworkDto>(artwork);
+        return Ok(artworkDto);
     }
 
     [HttpPost]
     public async Task<ActionResult> AddArtwork([FromForm] ArtworkDto artworkDto)
     {
         if (artworkDto.Image == null)
-            return BadRequest("Image and ArtistPic files are required.");
+            return BadRequest("Image file is required.");
 
         string imagePath = SaveFile(artworkDto.Image, "images");
 
         var artwork = _mapper.Map<Artwork>(artworkDto);
-
-/*        artworkDto.Image = imagePath;
-        artworkDto.ArtistPic = artistPicPath;*/
+        artwork.Image = imagePath;
 
         await _nftService.AddArtwork(artwork);
         return Ok();
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateArtwork(int id, [FromForm] Artwork updatedArtwork, IFormFile imageFile, IFormFile artistPicFile)
+    public async Task<ActionResult> UpdateArtwork(int id, [FromForm] ArtworkDto updatedArtworkDto)
     {
-        if (imageFile == null || artistPicFile == null)
-            return BadRequest("Image and ArtistPic files are required.");
+        var existingArtwork = await _nftService.GetArtworkById(id);
 
-        string imagePath = SaveFile(imageFile, "images");
-        string artistPicPath = SaveFile(artistPicFile, "images");
+        if (existingArtwork == null)
+            return NotFound();
 
-        updatedArtwork.Image = imagePath;
-/*        updatedArtwork.ArtistPic = artistPicPath;*/
+        if (updatedArtworkDto.Image != null)
+        {
+            string imagePath = SaveFile(updatedArtworkDto.Image, "images");
+            existingArtwork.Image = imagePath;
+        }
 
-        await _nftService.UpdateArtwork(id, updatedArtwork);
+        _mapper.Map(updatedArtworkDto, existingArtwork);
+
+        await _nftService.UpdateArtwork(id, existingArtwork);
         return Ok();
     }
 
