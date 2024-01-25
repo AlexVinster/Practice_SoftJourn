@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Interfaces;
 using WebApplication1.NFTsList;
+using WebApplication1.Models.DTOs;
+using AutoMapper;
+
 
 [ApiController]
 [Route("api/[controller]")]
 public class NFTController : ControllerBase
 {
     private readonly INFTService _nftService;
+    private readonly IMapper _mapper;
 
-    public NFTController(INFTService nftService)
+    public NFTController(INFTService nftService, IMapper mapper)
     {
         _nftService = nftService;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -32,16 +37,17 @@ public class NFTController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddArtwork([FromForm] Artwork artwork, IFormFile imageFile, IFormFile artistPicFile)
+    public async Task<ActionResult> AddArtwork([FromForm] ArtworkDto artworkDto)
     {
-        if (imageFile == null || artistPicFile == null)
+        if (artworkDto.Image == null)
             return BadRequest("Image and ArtistPic files are required.");
 
-        string imagePath = SaveFile(imageFile, "images");
-        string artistPicPath = SaveFile(artistPicFile, "images");
+        string imagePath = SaveFile(artworkDto.Image, "images");
 
-        artwork.Image = imagePath;
-        artwork.ArtistPic = artistPicPath;
+        var artwork = _mapper.Map<Artwork>(artworkDto);
+
+/*        artworkDto.Image = imagePath;
+        artworkDto.ArtistPic = artistPicPath;*/
 
         await _nftService.AddArtwork(artwork);
         return Ok();
@@ -57,7 +63,7 @@ public class NFTController : ControllerBase
         string artistPicPath = SaveFile(artistPicFile, "images");
 
         updatedArtwork.Image = imagePath;
-        updatedArtwork.ArtistPic = artistPicPath;
+/*        updatedArtwork.ArtistPic = artistPicPath;*/
 
         await _nftService.UpdateArtwork(id, updatedArtwork);
         return Ok();

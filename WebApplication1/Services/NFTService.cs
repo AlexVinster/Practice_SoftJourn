@@ -41,8 +41,10 @@ namespace WebApplication1.Services
             {
                 existingArtwork.Image = updatedArtwork.Image;
                 existingArtwork.Name = updatedArtwork.Name;
-                existingArtwork.Artist = updatedArtwork.Artist;
-                existingArtwork.ArtistPic = updatedArtwork.ArtistPic;
+                existingArtwork.Description = updatedArtwork.Description;
+                existingArtwork.Price = updatedArtwork.Price;
+/*                existingArtwork.Artist = updatedArtwork.Artist;
+                existingArtwork.ArtistPic = updatedArtwork.ArtistPic;*/
 
                 await _context.SaveChangesAsync();
             }

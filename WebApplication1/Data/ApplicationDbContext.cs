@@ -15,5 +15,6 @@ namespace WebApplication1.Data
             base.OnModelCreating(builder);
         }
         public DbSet<Artwork> Artworks { get; set; }
+        public DbSet<ArtistInformation> Artists { get; set; }
     }
 }
