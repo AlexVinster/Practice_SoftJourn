@@ -16,12 +16,6 @@ namespace WebApplication1.Data.Configurations
             builder.Property(b => b.Timestamp)
                 .IsRequired();
 
-            // Зв'язок з NFT
-            /*            builder.HasOne(b => b.NFT)
-                            .WithMany(nft => nft.Bids)
-                            .HasForeignKey(b => b.NFTId)
-                            .OnDelete(DeleteBehavior.Cascade)
-                            .HasPrincipalKey(nft => nft.NFTId);*/
             // Foreign key with User
             builder.HasOne(b => b.User)
                 .WithMany(u => u.Bids)
