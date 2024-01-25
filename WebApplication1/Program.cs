@@ -20,8 +20,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+// For interfaces
 builder.Services.AddScoped<INFTService, NFTService>();
 
+// Automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>

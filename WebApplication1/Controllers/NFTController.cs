@@ -32,15 +32,33 @@ public class NFTController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddArtwork([FromBody] Artwork artwork)
+    public async Task<ActionResult> AddArtwork([FromForm] Artwork artwork, IFormFile imageFile, IFormFile artistPicFile)
     {
+        if (imageFile == null || artistPicFile == null)
+            return BadRequest("Image and ArtistPic files are required.");
+
+        string imagePath = SaveFile(imageFile, "images");
+        string artistPicPath = SaveFile(artistPicFile, "images");
+
+        artwork.Image = imagePath;
+        artwork.ArtistPic = artistPicPath;
+
         await _nftService.AddArtwork(artwork);
         return Ok();
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateArtwork(int id, [FromBody] Artwork updatedArtwork)
+    public async Task<ActionResult> UpdateArtwork(int id, [FromForm] Artwork updatedArtwork, IFormFile imageFile, IFormFile artistPicFile)
     {
+        if (imageFile == null || artistPicFile == null)
+            return BadRequest("Image and ArtistPic files are required.");
+
+        string imagePath = SaveFile(imageFile, "images");
+        string artistPicPath = SaveFile(artistPicFile, "images");
+
+        updatedArtwork.Image = imagePath;
+        updatedArtwork.ArtistPic = artistPicPath;
+
         await _nftService.UpdateArtwork(id, updatedArtwork);
         return Ok();
     }
@@ -50,5 +68,19 @@ public class NFTController : ControllerBase
     {
         await _nftService.DeleteArtwork(id);
         return Ok();
+    }
+
+    private string SaveFile(IFormFile file, string subfolder)
+    {
+        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", subfolder);
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(folderPath, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            file.CopyTo(stream);
+        }
+
+        return $"/{subfolder}/{fileName}";
     }
 }

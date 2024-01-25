@@ -1,7 +1,9 @@
-﻿using WebApplication1.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApplication1.Data;
 using WebApplication1.Interfaces;
 using WebApplication1.NFTsList;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace WebApplication1.Services
