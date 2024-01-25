@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ArtistInformation>> GetArtworks()
+        public ActionResult<IEnumerable<ArtistInformation>> GetArtists()
         {
             return _context.Artists.ToList();
         }

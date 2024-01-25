@@ -16,5 +16,6 @@ namespace WebApplication1.Data
         }
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<ArtistInformation> Artists { get; set; }
+        public DbSet<Bid> Bids { get; set; }
     }
 }
