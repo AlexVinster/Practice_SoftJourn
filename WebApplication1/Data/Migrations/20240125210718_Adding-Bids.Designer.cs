@@ -12,7 +12,7 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240125205732_Adding-Bids")]
+    [Migration("20240125210718_Adding-Bids")]
     partial class AddingBids
     {
         /// <inheritdoc />
@@ -312,6 +312,9 @@ namespace WebApplication1.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
@@ -320,6 +323,8 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BidId");
+
+                    b.HasIndex("ArtworkId");
 
                     b.HasIndex("UserId");
 
@@ -400,11 +405,19 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.NFTsList.Bid", b =>
                 {
+                    b.HasOne("WebApplication1.NFTsList.Artwork", "Artwork")
+                        .WithMany("Bids")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebApplication1.Auth.ApplicationUser", "User")
                         .WithMany("Bids")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Artwork");
 
                     b.Navigation("User");
                 });
@@ -412,6 +425,11 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.NFTsList.ArtistInformation", b =>
                 {
                     b.Navigation("Artworks");
+                });
+
+            modelBuilder.Entity("WebApplication1.NFTsList.Artwork", b =>
+                {
+                    b.Navigation("Bids");
                 });
 
             modelBuilder.Entity("WebApplication1.Auth.ApplicationUser", b =>

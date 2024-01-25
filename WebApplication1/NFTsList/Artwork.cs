@@ -13,5 +13,6 @@ namespace WebApplication1.NFTsList
         // Foreign key with Artists
         public int ArtistId { get; set; }
         public ArtistInformation Artist { get; set; }
+        public virtual ICollection<Bid> Bids { get; set; }
     }
 }

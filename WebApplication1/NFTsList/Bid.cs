@@ -10,9 +10,13 @@ namespace WebApplication1.NFTsList
         public decimal Amount { get; set; }
         public DateTime Timestamp { get; set; }
 
-/*        public int NFTId { get; set; }*/
+        // Foreign key with Users
         public string UserId { get; set; }
-        [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+
+        // Foreign key with Artwork
+        public int ArtworkId {  get; set; }
+        public virtual Artwork Artwork { get; set; }
+        
     }
 }
