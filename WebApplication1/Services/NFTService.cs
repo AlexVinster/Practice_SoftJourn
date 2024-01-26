@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication1.Data;
+using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
-using WebApplication1.NFTsList;
 
 
 namespace WebApplication1.Services

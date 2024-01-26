@@ -1,4 +1,4 @@
-﻿using WebApplication1.NFTsList;
+﻿using WebApplication1.Data.Entities;
 
 namespace WebApplication1.Interfaces
 {

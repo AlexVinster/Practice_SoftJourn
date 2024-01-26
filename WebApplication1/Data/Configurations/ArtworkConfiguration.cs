@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebApplication1.NFTsList;
+using WebApplication1.Data.Entities;
 
-namespace WebApplication1.Data.Entities
+namespace WebApplication1.Data.Configurations
 {
     public class ArtworkConfiguration : IEntityTypeConfiguration<Artwork>
     {
@@ -20,13 +20,14 @@ namespace WebApplication1.Data.Entities
                 .IsRequired();
 
             builder.Property(a => a.Price)
+                .HasPrecision(18, 6)
                 .IsRequired();
 
-/*            builder.Property(a => a.Artist)
-                .IsRequired();
+            /*            builder.Property(a => a.Artist)
+                            .IsRequired();
 
-            builder.Property(a => a.ArtistPic)
-                .IsRequired();*/
+                        builder.Property(a => a.ArtistPic)
+                            .IsRequired();*/
         }
     }
 }

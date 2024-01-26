@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
 using WebApplication1.Models.DTOs;
-using WebApplication1.NFTsList;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -12,8 +12,8 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240125210718_Adding-Bids")]
-    partial class AddingBids
+    [Migration("20240126153150_Added-Bids")]
+    partial class AddedBids
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,7 +232,7 @@ namespace WebApplication1.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.ArtistInformation", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.ArtistInformation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -268,7 +268,7 @@ namespace WebApplication1.Migrations
                     b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.Artwork", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.Artwork", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,13 +301,13 @@ namespace WebApplication1.Migrations
                     b.ToTable("Artworks");
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.Bid", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.Bid", b =>
                 {
-                    b.Property<int>("BidId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BidId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -322,7 +322,7 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("BidId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ArtworkId");
 
@@ -334,9 +334,6 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Auth.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("BidId")
-                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -392,9 +389,9 @@ namespace WebApplication1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.Artwork", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.Artwork", b =>
                 {
-                    b.HasOne("WebApplication1.NFTsList.ArtistInformation", "Artist")
+                    b.HasOne("WebApplication1.Data.Entities.ArtistInformation", "Artist")
                         .WithMany("Artworks")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -403,9 +400,9 @@ namespace WebApplication1.Migrations
                     b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.Bid", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.Bid", b =>
                 {
-                    b.HasOne("WebApplication1.NFTsList.Artwork", "Artwork")
+                    b.HasOne("WebApplication1.Data.Entities.Artwork", "Artwork")
                         .WithMany("Bids")
                         .HasForeignKey("ArtworkId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -422,12 +419,12 @@ namespace WebApplication1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.ArtistInformation", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.ArtistInformation", b =>
                 {
                     b.Navigation("Artworks");
                 });
 
-            modelBuilder.Entity("WebApplication1.NFTsList.Artwork", b =>
+            modelBuilder.Entity("WebApplication1.Data.Entities.Artwork", b =>
                 {
                     b.Navigation("Bids");
                 });

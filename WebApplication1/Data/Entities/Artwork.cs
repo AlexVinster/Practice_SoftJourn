@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.NFTsList
+namespace WebApplication1.Data.Entities
 {
     public class Artwork
     {

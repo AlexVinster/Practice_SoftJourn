@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebApplication1.NFTsList;
+using WebApplication1.Data.Entities;
 
 namespace WebApplication1.Data.Configurations
 {
@@ -8,9 +8,10 @@ namespace WebApplication1.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Bid> builder)
         {
-            builder.HasKey(b => b.BidId);
+            builder.HasKey(b => b.Id);
 
             builder.Property(b => b.Amount)
+                .HasPrecision(18, 6)
                 .IsRequired();
 
             builder.Property(b => b.Timestamp)
