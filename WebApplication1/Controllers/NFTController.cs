@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
@@ -6,6 +7,7 @@ using WebApplication1.Models.DTOs;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class NFTController : ControllerBase
 {
     private readonly INFTService _nftService;
@@ -18,6 +20,7 @@ public class NFTController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<ArtworkDto>>> GetAllArtworks()
     {
         var artworks = await _nftService.GetAllArtworks();
@@ -26,6 +29,7 @@ public class NFTController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<ArtworkDto>> GetArtworkById(int id)
     {
         var artwork = await _nftService.GetArtworkById(id);
@@ -38,6 +42,7 @@ public class NFTController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> AddArtwork([FromForm] ArtworkDto artworkDto)
     {
         if (artworkDto.Image == null)
@@ -53,6 +58,7 @@ public class NFTController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> UpdateArtwork(int id, [FromForm] ArtworkDto updatedArtworkDto)
     {
         var existingArtwork = await _nftService.GetArtworkById(id);
@@ -73,6 +79,7 @@ public class NFTController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteArtwork(int id)
     {
         await _nftService.DeleteArtwork(id);
