@@ -1,10 +1,10 @@
-﻿using WebApplication1.Auth;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebApplication1.Auth;
 
 namespace WebApplication1.Controllers
 {
@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
         public AuthenticateController(
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
@@ -65,7 +65,7 @@ namespace WebApplication1.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -86,7 +86,7 @@ namespace WebApplication1.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -105,7 +105,7 @@ namespace WebApplication1.Controllers
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
