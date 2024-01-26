@@ -105,7 +105,7 @@ namespace WebApplication1.Controllers
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            if (await _roleManager.RoleExistsAsync(UserRoles.User)) // For default it was Admin !!!
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
