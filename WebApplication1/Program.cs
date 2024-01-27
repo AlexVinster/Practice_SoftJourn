@@ -30,6 +30,9 @@ builder.Services.AddScoped<INFTService, NFTService>();
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Підключіть AutoMapper для конфігурації профілів
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -54,11 +57,12 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "NFT API", Version = "v1" });
 
     // Adding JWT Authentication in Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
