@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication1.Auth;
 using WebApplication1.Data;
 using WebApplication1.Interfaces;
 using WebApplication1.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -28,24 +27,20 @@ builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
 // For interfaces
 builder.Services.AddScoped<INFTService, NFTService>();
-builder.Services.AddScoped<IArtistService, ArtistService>();
-
 
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Automapper for profile configuration
+// Підключіть AutoMapper для конфігурації профілів
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Adding static files authorization
-builder.Services.AddAuthorization(options =>
+builder.Services.AddCors(options =>
 {
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
+    options.AddPolicy("AllowAny",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
 });
-
-
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -112,19 +107,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
-    RequestPath = "/images"
-});
-
 app.UseHttpsRedirection();
 
 // Authentication & Authorization
+app.UseCors("AllowAny");
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
+
 app.MapControllers();
 
 app.Run();
