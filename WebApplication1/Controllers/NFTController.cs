@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
-using WebApplication1.Models.DTOs;
+using WebApplication1.Models.DTOs.Artwork;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -24,8 +24,8 @@ public class NFTController : ControllerBase
     public async Task<ActionResult<IEnumerable<ArtworkDto>>> GetAllArtworks()
     {
         var artworks = await _nftService.GetAllArtworks();
-        var artworkDtos = _mapper.Map<IEnumerable<ArtworkDto>>(artworks);
-        return Ok(artworkDtos);
+        var artworkDtoResponse = _mapper.Map<IEnumerable<ArtworkDtoResponse>>(artworks);
+        return Ok(artworkDtoResponse);
     }
 
     [HttpGet("{id}")]
@@ -37,8 +37,8 @@ public class NFTController : ControllerBase
         if (artwork == null)
             return NotFound();
 
-        var artworkDto = _mapper.Map<ArtworkDto>(artwork);
-        return Ok(artworkDto);
+        var artworkDtoResponse = _mapper.Map<ArtworkDtoResponse>(artwork);
+        return Ok(artworkDtoResponse);
     }
 
     [HttpPost]

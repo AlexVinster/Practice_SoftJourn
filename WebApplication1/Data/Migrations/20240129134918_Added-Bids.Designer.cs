@@ -12,7 +12,7 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240126153150_Added-Bids")]
+    [Migration("20240129134918_Added-Bids")]
     partial class AddedBids
     {
         /// <inheritdoc />
