@@ -8,6 +8,7 @@ using WebApplication1.Data;
 using WebApplication1.Interfaces;
 using WebApplication1.Services;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -31,7 +32,6 @@ builder.Services.AddScoped<INFTService, NFTService>();
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Підключіть AutoMapper для конфігурації профілів
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddCors(options =>
