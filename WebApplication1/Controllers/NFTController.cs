@@ -59,34 +59,64 @@ public class NFTController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> UpdateArtwork(int id, [FromForm] ArtworkDto updatedArtworkDto)
+    public async Task<ActionResult<ArtworkDtoResponse>> UpdateArtwork(int id, [FromForm] ArtworkDto updatedArtworkDto)
     {
         var existingArtwork = await _nftService.GetArtworkById(id);
 
         if (existingArtwork == null)
             return NotFound();
 
+        string imagePath = null;  // Ініціалізація шляху
+
         if (updatedArtworkDto.Image != null)
         {
-            string imagePath = SaveFile(updatedArtworkDto.Image, "images");
+            DeleteFile(existingArtwork.Image);
+
+            imagePath = SaveFile(updatedArtworkDto.Image, "images");
             existingArtwork.Image = imagePath;
         }
 
         _mapper.Map(updatedArtworkDto, existingArtwork);
 
+        if (imagePath != null)
+        {
+            existingArtwork.Image = imagePath;
+        }
+
         await _nftService.UpdateArtwork(id, existingArtwork);
-        return Ok();
+
+        var updatedArtworkDtoResponse = _mapper.Map<ArtworkDtoResponse>(existingArtwork);
+
+        return Ok(updatedArtworkDtoResponse);
     }
+
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteArtwork(int id)
     {
+        var artwork = await _nftService.GetArtworkById(id);
+
+        if (artwork == null)
+            return NotFound();
+
+        DeleteFile(artwork.Image);
+
         await _nftService.DeleteArtwork(id);
         return Ok();
     }
 
-    private string SaveFile(IFormFile file, string subfolder)
+    private void DeleteFile(string filePath)
+    {
+        var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filePath.TrimStart('/'));
+
+        if (System.IO.File.Exists(fullPath))
+        {
+            System.IO.File.Delete(fullPath);
+        }
+    }
+
+        private string SaveFile(IFormFile file, string subfolder)
     {
         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", subfolder);
         var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
