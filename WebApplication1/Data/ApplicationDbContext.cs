@@ -13,6 +13,7 @@ namespace WebApplication1.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<ArtistInformation> Artists { get; set; }

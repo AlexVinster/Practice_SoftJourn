@@ -94,10 +94,6 @@ public class NFTController : ControllerBase
         return Ok(updatedArtworkDtoResponse);
     }
 
-
-
-
-
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteArtwork(int id)
