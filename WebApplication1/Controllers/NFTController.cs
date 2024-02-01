@@ -66,7 +66,7 @@ public class NFTController : ControllerBase
         if (existingArtwork == null)
             return NotFound();
 
-        string imagePath = null;  // Ініціалізація шляху
+        string imagePath = null;
 
         if (updatedArtworkDto.Image != null)
         {
@@ -75,10 +75,14 @@ public class NFTController : ControllerBase
             imagePath = SaveFile(updatedArtworkDto.Image, "images");
             existingArtwork.Image = imagePath;
         }
+        else
+        {
+            imagePath = existingArtwork.Image;
+        }
 
         _mapper.Map(updatedArtworkDto, existingArtwork);
 
-        if (imagePath != null)
+        if (!string.IsNullOrEmpty(imagePath))
         {
             existingArtwork.Image = imagePath;
         }
@@ -89,6 +93,9 @@ public class NFTController : ControllerBase
 
         return Ok(updatedArtworkDtoResponse);
     }
+
+
+
 
 
     [HttpDelete("{id}")]
