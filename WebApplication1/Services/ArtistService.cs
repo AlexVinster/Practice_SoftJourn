@@ -8,17 +8,15 @@
     using WebApplication1.Data;
     using WebApplication1.Data.Entities;
     using WebApplication1.Interfaces;
-    using WebApplication1.Models.DTOs.Artist;
-
     public class ArtistService : IArtistService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
-        public ArtistService(ApplicationDbContext context, IMapper mapper)
+        public ArtistService(ApplicationDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
-            _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<ArtistInformation>> GetAllArtists()
@@ -58,13 +56,19 @@
             }
 
         }
-
         public async Task DeleteArtist(int id)
         {
             var artistToDelete = await _context.Artists.FindAsync(id);
 
             if (artistToDelete != null)
             {
+                foreach (var artwork in _context.Artworks.Where(a => a.ArtistId == id))
+                {
+                    _fileService.DeleteFile(artwork.Image);
+
+                    _context.Artworks.Remove(artwork);
+                }
+
                 _context.Artists.Remove(artistToDelete);
                 await _context.SaveChangesAsync();
             }

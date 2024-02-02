@@ -28,6 +28,8 @@ builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
 // For interfaces
 builder.Services.AddScoped<INFTService, NFTService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

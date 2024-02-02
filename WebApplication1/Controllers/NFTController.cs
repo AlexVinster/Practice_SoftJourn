@@ -12,11 +12,13 @@ public class NFTController : ControllerBase
 {
     private readonly INFTService _nftService;
     private readonly IMapper _mapper;
+    private readonly IFileService _fileService;
 
-    public NFTController(INFTService nftService, IMapper mapper)
+    public NFTController(INFTService nftService, IMapper mapper, IFileService fileService)
     {
         _nftService = nftService;
         _mapper = mapper;
+        _fileService = fileService;
     }
 
     [HttpGet]
@@ -48,14 +50,23 @@ public class NFTController : ControllerBase
         if (artworkDto.Image == null)
             return BadRequest("Image file is required.");
 
-        string imagePath = SaveFile(artworkDto.Image, "images");
+        string imagePath = _fileService.SaveFile(artworkDto.Image, "images");
 
         var artwork = _mapper.Map<Artwork>(artworkDto);
         artwork.Image = imagePath;
 
-        await _nftService.AddArtwork(artwork);
-        return Ok();
+        try
+        {
+            await _nftService.AddArtwork(artwork);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _fileService.DeleteFile(imagePath);
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
+
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
@@ -70,9 +81,9 @@ public class NFTController : ControllerBase
 
         if (updatedArtworkDto.Image != null)
         {
-            DeleteFile(existingArtwork.Image);
+            _fileService.DeleteFile(existingArtwork.Image);
 
-            imagePath = SaveFile(updatedArtworkDto.Image, "images");
+            imagePath = _fileService.SaveFile(updatedArtworkDto.Image, "images");
             existingArtwork.Image = imagePath;
         }
         else
@@ -103,33 +114,9 @@ public class NFTController : ControllerBase
         if (artwork == null)
             return NotFound();
 
-        DeleteFile(artwork.Image);
+        _fileService.DeleteFile(artwork.Image);
 
         await _nftService.DeleteArtwork(id);
         return Ok();
-    }
-
-    private void DeleteFile(string filePath)
-    {
-        var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filePath.TrimStart('/'));
-
-        if (System.IO.File.Exists(fullPath))
-        {
-            System.IO.File.Delete(fullPath);
-        }
-    }
-
-        private string SaveFile(IFormFile file, string subfolder)
-    {
-        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", subfolder);
-        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        var filePath = Path.Combine(folderPath, fileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            file.CopyTo(stream);
-        }
-
-        return $"/{subfolder}/{fileName}";
     }
 }
