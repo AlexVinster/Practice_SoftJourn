@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NFT Marketplace</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/atropos.css">
+    <link rel="stylesheet" href="css/splide.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <div class="overlay" onclick="toggleClasses()"></div>
+      <header class="header">
+        <section class="header_inner">
+          <nav class="header_logo hvr-shrink">
+            <a href="index.html" class="header_logo_container">
+              <img src="images/storefront.svg" alt="NFT Marketplace" class="header_storefrontimg">
+              <img src="images/marketplace.svg" alt="NFT Marketplace" class="header_marketplaceimg">
+            </a>
+          </nav>
+          <a class="header_menubtn" onclick="toggleClasses()">
+            <img src="images/burgermenu.svg" alt="Menu" class="header_burgermenu">
+          </a>
+          <div id="languageSwitcher" class="lang header_menuitem">
+            <a href="#" data-lang="en" class="hvr-shrink">EN</a>
+            <a href="#" data-lang="ua" class="hvr-shrink">UA</a>
+          </div>
+          <nav class="header_menu">
+            <a class="header_close_menu" onclick="toggleClasses()">
+              <img src="images/burgermenu.svg" alt="Menu" class="header_burgermenu">
+            </a>
+            <a href="marketplace.html" class="header_menuitem hvr-shrink">
+              <img src="images/market.svg" alt="Icon of market">
+              <p class="base-sans" data-lang="marketplace">Marketplace</p>
+            </a>
+            <a href="topcreators.html" class="header_menuitem hvr-shrink">
+              <img src="images/rank.svg" alt="Icon of rank">
+              <p class="base-sans" data-lang="rankings">Rankings</p>
+            </a>
+            <a href="connectwallet.html" class="header_menuitem hvr-shrink"
+              ><img src="images/wallet.svg" alt="Icon of wallet">
+              <p class="base-sans" data-lang="connect_wallet">Connect a wallet</p></a>
+            <a href="createaccount.html" class="header_menuitem_button btn hvr-shrink">
+              <img src="images/user.svg" alt="Icon of user">
+              <p class="base-sans" data-lang="sign_up">Sign Up</p>
+            </a>
+            <div class="header_join">
+              <p class="base-sans" data-lang="join_community">Join our community</p>
+              <div class="footer_socialpics">
+                <a href="https://discord.com/">
+                  <img src="images/discord.svg" alt="Discord">
+                </a>
+                <a href="https://youtube.com/">
+                  <img src="images/youtube.svg" alt="Youtube">
+                </a>
+                <a href="https://twitter.com/">
+                  <img src="images/twitter.svg" alt="Twitter">
+                </a>
+                <a href="https://instagram.com/">
+                  <img src="images/instagram.svg" alt="Instagram">
+                </a>
+              </div>
+              <div id="languageSwitcher" class="lang-mobile">
+                <a href="#" data-lang="en">EN</a>
+                <a href="#" data-lang="ua">UA</a>
+              </div>
+            </div>
+          </nav>
+        </section>
+      </header>
+
+      <section class="hero">
+        <div class="container">
+          <div class="hero_inner">
+            <div class="hero_article_head">
+              <h4 class="sans" data-lang="discover_art_collect_nfts">Discover digital art & Collect NFTs</h4>
+              <p class="base-sans" data-lang="nft_marketplace_ui">NFT marketplace UI created with Anima for Figma. Collect, buy and sell art from more than 20k NFT artists.</p>
+            </div>
+  
+            <div class="hero_nft_card">
+              <a href="artistpage.html"><img src="images/hero.gif" alt="Hero gif"></a>
+            </div>
+            <a href="createaccount.html" class="hero_article_button btn hvr-shrink" data-lang="get_started"><img src="images/rocket.png" alt="Ico Rocket">Get Started</a>
+  
+            <div class="hero_article_addinfo">
+              <div class="hero_article_addinfo_item">
+                <h5 class="mono">240k+</h5>
+                <p class="base-sans" data-lang="total_sale">Total Sale</p>
+              </div>
+              <div class="hero_article_addinfo_item">
+                <h5 class="mono">100k+</h5>
+                <p class="base-sans" data-lang="auctions">Auctions</p>
+              </div>
+              <div class="hero_article_addinfo_item">
+                <h5 class="mono">240k+</h5>
+                <p class="base-sans" data-lang="artists">Artists</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trendingcol">
+        <div class="container">
+          <div class="trendingcol_inner">
+            <div class="trendingcol_headline">
+              <h4 class="sans" data-lang="trending_collection">Trending Collection</h4>
+              <p class="base-sans" data-lang="weekly_updated_collection">Checkout our weekly updated trending collection.</p>
+            </div>
+            <div class="trendingcol_cardrow">
+              <div class="trendingcol_cardrow_item">
+                <div class="trendingcol_cardrow_item_primpic hvr-shrink">
+                  <a href="nftpage.html">
+                    <img src="images/cardrow1_fpick.png" alt="NFT Dog image">
+                  </a>
+                </div>
+
+                <div class="trendingcol_cardrow_item_secpic_items">
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow1_spick1.png"
+                      alt="NFT Spick1">
+                    </a>
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow1_spick2.png"
+                      alt="NFT Spick2">
+                    </a>
+                  <a href="nftpage.html"
+                    ><p class="trendingcol_cardrow_secpic_item_nft hvr-shrink">
+                      1025+
+                    </p></a>
+                </div>
+                <div class="trendingcol_info">
+                  <h5 class="sans">DSGN Animals</h5>
+                  <div class="trendingcol_card_placeholder_artistcard">
+                    <img src="images/trendingcol_artistcard1.png" alt="MrFox">
+                    <p class="base-sans">MrFox</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="trendingcol_cardrow_item trendingcol_cardrow_item_cardrow_first">
+                <div class="trendingcol_cardrow_item_primpic hvr-shrink">
+                  <a href="nftpage.html">
+                    <img src="images/cardrow2_fpick.png" alt="NFT fpick">
+                  </a>
+                </div>
+                <div class="trendingcol_cardrow_item_secpic_items">
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow2_spick1.png"
+                      alt="NFT spick">
+                    </a>
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow2_spick2.png"
+                      alt="NFT image spick2">
+                    </a>
+                  <a href="nftpage.html">
+                    <p class="trendingcol_cardrow_secpic_item_nft hvr-shrink">
+                      1025+
+                    </p></a>
+                </div>
+                <div class="trendingcol_info">
+                  <h5 class="sans">Magic Mushrooms</h5>
+                  <div class="trendingcol_card_placeholder_artistcard">
+                    <img src="images/trendingcol_artistcard2.png" alt="Shroomie">
+                    <p class="base-sans">Shroomie</p>
+                  </div>
+                </div>
+              </div>
+              <div class="trendingcol_cardrow_item trendingcol_cardrow_item_cardrow_second">
+                <div class="trendingcol_cardrow_item_primpic hvr-shrink">
+                  <a href="nftpage.html">
+                    <img src="images/cardrow3_fpick.png" alt="NFT Image">
+                  </a>
+                </div>
+
+                <div class="trendingcol_cardrow_item_secpic_items">
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow3_spick1.png"
+                      alt="NFT Image">
+                    </a>
+                  <a href="nftpage.html">
+                    <img
+                      class="hvr-shrink"
+                      src="images/cardrow3_spick2.png"
+                      alt="NFT Image">
+                    </a>
+                  <a href="nftpage.html">
+                    <p class="trendingcol_cardrow_secpic_item_nft hvr-shrink">
+                      1025+
+                    </p>
+                  </a>
+                </div>
+                <div class="trendingcol_info">
+                  <h5 class="sans">Disco Machines</h5>
+                  <div class="trendingcol_card_placeholder_artistcard">
+                    <img src="images/trendingcol_artistcard3.png" alt="BeKind2Robots">
+                    <p class="base-sans">BeKind2Robots</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="toprated container">
+        <div class="toprated_inner">
+          <article class="toprated_headline">
+            <h4 class="sans" data-lang="top_creators">Top creators</h4>
+            <p class="base-sans" data-lang="checkout_top_creators">Checkout Top Rated Creators on the NFT Marketplace</p>
+          </article>
+          <section class="toprated_btn hvr-shrink">
+            <a href="topcreators.html" class="toprated_button btn">
+              <img src="images/rocket2.svg" alt="Rocket ico"><span data-lang="view_rankings">View Rankings</span>
+            </a>
+          </section>
+          <div class="toprated_cardrow_list first"></div>
+        </div>
+      </section>
+
+      <section class="browse">
+        <div class="container">
+          <div class="browse_inner">
+            <h4 class="sans" data-lang="browse_categories">Browse Categories</h4>
+            <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+              <div class="splide__track">
+                <ul class="splide__list">
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img class="browse_card_img" src="images/browse/art_bg.webp" alt="Art">
+                      <img src="images/browse/Art.svg" alt="Art" class="browse_card_front">
+                      <p class="browse_card_name" data-lang="art">Art</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/swatches_bg.webp"
+                        alt="Swatches">
+                        <img
+                        src="images/browse/Swatches.svg"
+                        alt="Swatches"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="swatches">Swatches</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/music_bg.webp"
+                        alt="Music">
+                        <img
+                        src="images/browse/Music.svg"
+                        alt="Music"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="music">Music</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/photography_bg.webp"
+                        alt="Photography">
+                        <img
+                        src="images/browse/Photography.svg"
+                        alt="Photography"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="photography">Photography</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/video_bg.webp"
+                        alt="Video">
+                        <img
+                        src="images/browse/Video.svg"
+                        alt="Video"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="videu">Video</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/utility_bg.webp"
+                        alt="Utility">
+                        <img
+                        src="images/browse/Utility.svg"
+                        alt="Utility"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="utility">Utility</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/sport_bg.webp"
+                        alt="Sport">
+                        <img
+                        src="images/browse/Sport.svg"
+                        alt="Sport"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="sport">Sport</p>
+                    </a>
+                  </li>
+                  <li class="splide__slide hvr-shrink">
+                    <a href="marketplace.html" class="browse_card">
+                      <img
+                        class="browse_card_img"
+                        src="images/browse/worlds_bg.webp"
+                        alt="VirtualWorlds">
+                        <img
+                        src="images/browse/VirtualWorlds.svg"
+                        alt="VirtualWorlds"
+                        class="browse_card_front">
+                      <p class="browse_card_name" data-lang="virtualworlds">VirtualWorlds</p>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="more">
+        <div class="container">
+          <div class="more_inner">
+            <div class="more_headline_text">
+              <h4 class="sans" data-lang="discover_more_nfts">Discover More NFTs</h4>
+              <p class="base-sans" data-lang="explore_new_trending_nfts">Explore new trending NFTs</p>
+            </div>
+            <div class="more_headline_button">
+              <a href="marketplace.html" class="more_button btn hvr-shrink">
+                <img src="images/rocket2.svg" alt="Rocket ico">
+                <span data-lang="see_all">See All</span>
+              </a>
+            </div>
+            <section class="more_cardrow"></section>
+          </div>
+        </div>
+      </section>
+
+      <section class="highlight">
+        <div class="highlight_gradient">
+          <div class="container">
+            <div class="highlight_inner">
+              <a href="artistpage.html" class="highlight_artistcard hvr-shrink">
+                <img src="images/highlight-artist.webp" alt="Shroomie">
+                <p class="base-sans">Shroomie</p>
+              </a>
+              <h3 class="sans">Magic Mushrooms</h3>
+
+              <div class="highlight_timer">
+                <p class="caption-mono">Auction ends in:</p>
+                <div class="highlight_timer_countdown">
+                  <div class="highlight_timer_item">
+                    <h3 class="highlight_hourtime mono">59</h3>
+                    <p class="highlight_hourtext caption-mono">Hours</p>
+                  </div>
+                  <h3 class="highlight_timer_divider mono">:</h3>
+                  <div class="highlight_timer_item">
+                    <h3 class="highlight_mintime mono">59</h3>
+                    <p class="highlight_mintext caption-mono">Minutes</p>
+                  </div>
+                  <h3 class="highlight_timer_divider mono">:</h3>
+                  <div class="highlight_timer_item">
+                    <h3 class="highlight_sectime mono">59</h3>
+                    <p class="highlight_sectext caption-mono">Seconds</p>
+                  </div>
+                </div>
+              </div>
+              <div class="highlight_button hvr-shrink">
+                <a href="nftpage.html" class="highlight_buttonsee">
+                  <img src="images/timer_buttonsee.svg" alt="See">
+                  <p style="color: black" data-lang="seeNFT">See NFT</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="howitworks">
+        <div class="container">
+          <div class="howitworks_inner">
+            <div class="howitworks_headline">
+              <h3 class="sans" data-lang="how_it_works">How It Works</h3>
+              <p class="base-sans" style="font-weight: 400" data-lang="how_it_works_description">
+                Find out how to get started
+              </p>
+            </div>
+            <div class="howitworks_cardrow">
+              <a href="./page404.html" class="howitworks_cardrow_item hvr-shrink">
+                <div class="howitworks_card_img">
+                  <img src="images/more_item1.webp" alt="Wallet">
+                </div>
+                <div class="howitworks_card_text">
+                  <h5 class="sans" data-lang="setup_wallet">Setup Your wallet</h5>
+                  <p class="caption-sans" data-lang="setup_wallet_description">
+                    Set up your wallet of choice. Connect it to the NFT market
+                    by clicking the wallet icon in the top right corner.
+                  </p>
+                </div>
+              </a>
+              <a href="./page404.html" class="howitworks_cardrow_item hvr-shrink">
+                <div class="howitworks_card_img">
+                  <img src="images/more_item2.webp" alt="Package">
+                </div>
+                <div class="howitworks_card_text">
+                  <h5 class="sans" data-lang="create_collection">Create Collection</h5>
+                  <p class="caption-sans" data-lang="create_collection_description">
+                    Upload your work and setup your collection. Add a
+                    description, social links and floor price.
+                  </p>
+                </div>
+              </a>
+              <a href="./page404.html" class="howitworks_cardrow_item hvr-shrink">
+                <div class="howitworks_card_img">
+                  <img src="images/more_item3.webp" alt="Shop">
+                </div>
+                <div class="howitworks_card_text">
+                  <h5 class="sans" data-lang="start_earning">Start Earning</h5>
+                  <p class="caption-sans" data-lang="start_earning_description">
+                    Choose between auctions and fixed-price listings. Start
+                    earning by selling your NFTs or trading others.
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="subscribe container">
+        <div class="subscribe_inner">
+          <div class="subscribe_picture">
+            <img src="images/join-pic.png" alt="Astronaut">
+          </div>
+          <article class="subscribe_article">
+            <div class="subscribe_text">
+              <h4 class="sans" data-lang="join_weekly_digest">Join our weekly digest</h4>
+              <p class="base-sans" data-lang="get_exclusive_promotions">
+                Get exclusive promotions & updates straight to your inbox.
+              </p>
+            </div>
+            <div class="subscribe_form">
+              <input id="emailInput" class="subscribe_input" type="email" placeholder="Enter Your Email Address">
+              <div class="subscribe_button btn hvr-shrink" id="subscribeBtn">
+                <img src="images/rocket.png" alt="Rocket" data-lang="subscribe">Subscribe
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    
+      <div class="modal" id="modal">
+        <div class="modalContent" id="subscribeModal">
+          <p id="modalText"></p>
+          <button class="btn modal_button hvr-shrink" id="closeModal" data-lang="close">Close</button>
+        </div>
+      </div>
+      
+
+
+      <div class="scrollup">
+        <svg class="scrollup_svg" viewBox="-2 -2 52 52">
+          <path
+            class="scrollup_path"
+            d="M24,0 A24,24 0 0,1 48,24 A24,24 0 0,1 24,48 A24,24 0 0,1 0,24 A24,24 0 0,1 24,0 Z" />
+        </svg>
+      </div>
+      <footer class="footer container">
+        <div class="footer_inner">
+          <section class="footer_socials">
+            <a href="index.html" class="header_logo_container hvr-shrink">
+              <img
+                src="images/storefront.svg"
+                alt="storefront"
+                class="header_storefrontimg">
+              <img
+                src="images/marketplace.svg"
+                alt="marketplace"
+                class="header_marketplaceimg">
+            </a>
+            <p class="base-sans">
+              NFT marketplace UI created with Anima for Figma.
+            </p>
+            <p class="base-sans">Join our community</p>
+            <div class="footer_socialpics">
+              <a href="https://discord.com/" class="hvr-shrink">
+                <img src="images/discord.svg" alt="Discord">
+              </a>
+              <a href="https://youtube.com/" class="hvr-shrink">
+                <img src="images/youtube.svg" alt="Youtube">
+              </a>
+              <a href="https://twitter.com/" class="hvr-shrink">
+                <img src="images/twitter.svg" alt="Twitter">
+              </a>
+              <a href="https://instagram.com/" class="hvr-shrink">
+                <img src="images/instagram.svg" alt="Instagram">
+              </a>
+            </div>
+          </section>
+          <section class="footer_explore">
+            <h5 class="mono">Explore</h5>
+            <a href="marketplace.html" class="hvr-shrink">
+              <p class="base-sans">Marketplace</p></a>
+            <a href="topcreators.html" class="hvr-shrink">
+              <p class="base-sans">Rankings</p></a>
+            <a href="connectwallet.html" class="hvr-shrink">
+              <p class="base-sans">Connect a wallet</p>
+              </a>
+          </section>
+          <section class="footer_form">
+            <div class="footer_text">
+              <h4 class="sans">Join our weekly digest</h4>
+              <p class="base-sans">
+                Get exclusive promotions & updates straight to your inbox.
+              </p>
+            </div>
+            <input
+              id="footerInput"
+              class="footer_input"
+              type="email"
+              placeholder="Enter Your Email Address">
+            <a href="./page404.html" class="footer_button btn hvr-shrink">
+              <img src="images/rocket.png" alt="Rocket">Subscribe</a>
+          </section>
+        </div>
+        <p style="color: #cccccc" class="caption-sans">
+          Ⓒ NFT Market. Use this template freely.
+        </p>
+      </footer>
+    </div>
+    <script src="js/index.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/splide.min.js"></script>
+    <script src="js/atropos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/email.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  </body>
+</html>

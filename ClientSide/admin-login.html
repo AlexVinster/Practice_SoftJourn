@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NFT Marketplace</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        header {
+            background-color: #2b2b2b;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 400px;
+            margin: 0 auto;
+            color: #fff;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-link {
+            text-align: center;
+            color: #fff;
+        }
+
+        .login-link a {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body-wrapper">
+        <header>
+            <h1 class="sans">Admin Login</h1>
+        </header>
+
+        <div class="admin-panel">
+            <div class="login-form">
+                <form id="adminLoginForm">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    
+                    <button class="btn modal_button hvr-shrink" type="button" onclick="adminLogin()">Login</button>
+                </form>
+                <div class="login-link">
+                    <p class="base-sans">Need <a href="admin-registration.html">Register?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function adminLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:5069/api/Authenticate/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Response from backend:', data);
+
+                sessionStorage.setItem('token', data.token);
+
+                window.location.href = './admin-main.html';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

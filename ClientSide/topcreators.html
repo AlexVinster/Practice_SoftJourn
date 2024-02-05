@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Top Creators</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <div class="overlay" onclick="toggleClasses()"></div>
+      <header class="header">
+        <section class="header_inner">
+          <nav class="header_logo hvr-shrink">
+            <a href="index.html" class="header_logo_container">
+              <img
+                src="images/storefront.svg"
+                alt="NFT Marketplace"
+                class="header_storefrontimg">
+              <img
+                src="images/marketplace.svg"
+                alt="NFT Marketplace"
+                class="header_marketplaceimg">
+            </a>
+          </nav>
+          <a class="header_menubtn" onclick="toggleClasses()">
+            <img
+              src="images/burgermenu.svg"
+              alt="Menu"
+              class="header_burgermenu">
+          </a>
+          <nav class="header_menu">
+            <a class="header_close_menu" onclick="toggleClasses()">
+              <img
+                src="images/burgermenu.svg"
+                alt="Menu"
+                class="header_burgermenu">
+            </a>
+            <a href="marketplace.html" class="header_menuitem hvr-shrink">
+              <img src="images/market.svg" alt="Market">
+              <p class="base-sans">Marketplace</p></a>
+            <a href="topcreators.html" class="header_menuitem hvr-shrink">
+              <img src="images/rank.svg" alt="Rank">
+              <p class="base-sans">Rankings</p></a>
+            <a href="connectwallet.html" class="header_menuitem hvr-shrink"
+              ><img src="images/wallet.svg" alt="Wallet">
+              <p class="base-sans">Connect a wallet</p></a>
+            <a
+              href="createaccount.html"
+              class="header_menuitem_button btn hvr-shrink">
+              <img src="images/user.svg" alt="User">
+              <p class="base-sans">Sign Up</p></a>
+            <div class="header_join">
+              <p class="base-sans">Join our community</p>
+              <div class="footer_socialpics">
+                <a href="https://discord.com/">
+                  <img src="images/discord.svg" alt="Discord">
+                </a>
+                <a href="https://youtube.com/">
+                  <img src="images/youtube.svg" alt="Youtube">
+                </a>
+                <a href="https://twitter.com/">
+                  <img src="images/twitter.svg" alt="Twitter">
+                </a>
+                <a href="https://instagram.com/">
+                  <img src="images/instagram.svg" alt="Instagram">
+                </a>
+              </div>
+            </div>
+          </nav>
+        </section>
+      </header>
+
+      <section class="topcreators container">
+        <div class="marketplace_inner">
+          <div class="marketplace_headline">
+            <h4 class="sans">Top Creators</h4>
+            <p class="base-sans">
+              Check out top ranking NFT artists on the NFT Marketplace.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="tabbar">
+        <div
+          style="padding-top: 0; padding-bottom: 0"
+          class="tabbar_inner container">
+          <div class="tabbar_inner_item activetab">
+            <a href="#"><h5 id="today" class="tab sans">Today</h5></a>
+          </div>
+          <div class="tabbar_inner_item">
+            <h5 id="this-week" class="tab sans">This Week</h5>
+          </div>
+          <div class="tabbar_inner_item">
+            <h5 id="this-month" class="tab sans">This Month</h5>
+          </div>
+          <div class="tabbar_inner_item">
+            <h5 id="all-time" class="tab sans">All Time</h5>
+          </div>
+        </div>
+      </section>
+
+      <section class="rankings container">
+        <div class="rankings_inner">
+          <div class="rankings_header">
+            <p class="table_num base-mono">#</p>
+            <p class="table_name caption-mono">Artist</p>
+            <p class="table_change caption-mono">Change</p>
+            <p class="table_sold caption-mono">NFTs Sold</p>
+            <p class="table_price caption-mono">Volume</p>
+          </div>
+          <div class="rankings_table"></div>
+        </div>
+      </section>
+      <div class="scrollup">
+        <svg class="scrollup_svg" viewBox="-2 -2 52 52">
+          <path
+            class="scrollup_path"
+            d="M24,0 A24,24 0 0,1 48,24 A24,24 0 0,1 24,48 A24,24 0 0,1 0,24 A24,24 0 0,1 24,0 Z" />
+        </svg>
+      </div>
+      <footer class="footer container">
+        <div class="footer_inner">
+          <section class="footer_socials">
+            <a href="index.html" class="header_logo_container hvr-shrink">
+              <img
+                src="images/storefront.svg"
+                alt="storefront"
+                class="header_storefrontimg">
+              <img
+                src="images/marketplace.svg"
+                alt="marketplace"
+                class="header_marketplaceimg">
+            </a>
+            <p class="base-sans">
+              NFT marketplace UI created with Anima for Figma.
+            </p>
+            <p class="base-sans">Join our community</p>
+            <div class="footer_socialpics">
+              <a href="https://discord.com/" class="hvr-shrink">
+                <img src="images/discord.svg" alt="Discord">
+              </a>
+              <a href="https://youtube.com/" class="hvr-shrink">
+                <img src="images/youtube.svg" alt="Youtube">
+              </a>
+              <a href="https://twitter.com/" class="hvr-shrink">
+                <img src="images/twitter.svg" alt="Twitter">
+              </a>
+              <a href="https://instagram.com/" class="hvr-shrink">
+                <img src="images/instagram.svg" alt="Instagram">
+              </a>
+            </div>
+          </section>
+          <section class="footer_explore">
+            <h5 class="mono">Explore</h5>
+            <a href="marketplace.html" class="hvr-shrink">
+              <p class="base-sans">Marketplace</p>
+            </a>
+            <a href="topcreators.html" class="hvr-shrink">
+              <p class="base-sans">Rankings</p>
+            </a>
+            <a href="connectwallet.html" class="hvr-shrink">
+              <p class="base-sans">Connect a wallet</p>
+            </a>
+          </section>
+
+          <section class="footer_form">
+            <div class="footer_text">
+              <h4 class="sans">Join our weekly digest</h4>
+              <p class="base-sans">
+                Get exclusive promotions & updates straight to your inbox.
+              </p>
+            </div>
+            <input
+              class="footer_input"
+              type="email"
+              placeholder="Enter Your Email Address">
+            <a href="./page404.html" class="footer_button btn hvr-shrink">
+              <img src="images/rocket.png" alt="Rocket">Subscribe
+            </a>
+          </section>
+        </div>
+        <p style="color: #cccccc" class="caption-sans">
+          Ⓒ NFT Market. Use this template freely.
+        </p>
+      </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/topcreators.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
