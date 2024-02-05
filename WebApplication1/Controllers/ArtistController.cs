@@ -54,7 +54,7 @@ public class ArtistController : ControllerBase
             return BadRequest("Image file is required");
         }
 
-        string imagePath = _fileService.SaveFile(artistDto.Image, "images");
+        string imagePath = _fileService.SaveFile(artistDto.Image, "images/artists");
 
         var artist = _mapper.Map<ArtistInformation>(artistDto);
         artist.Image = imagePath;

@@ -54,7 +54,6 @@
             {
                 throw new ArgumentException("Artist not found");
             }
-
         }
         public async Task DeleteArtist(int id)
         {
