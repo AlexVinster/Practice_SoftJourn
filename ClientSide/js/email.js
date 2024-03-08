@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var successMessage = 'Your E-Mail: <span style="color: green;">' + (email || footerEmail) + '</span> successfully subscribed.';
       modalText.innerHTML = successMessage;
 
-      var subject = 'Hello Email';
-      var message = 'Thank you for subscribing to our newsletter!\nWe look forward to keeping you updated with our latest news and promotions.\nRegards,\nYour NFTMarketplace';
+      var subject = 'Thank you for subscribing';
+      var message = 'Thank you for subscribing to our Digest!\nWe look forward to keeping you updated with our latest news and promotions.\nRegards,\nYour NFTMarketplace';
 
       if (email !== '') {
         await SendHelloEmail(email, subject, message);
