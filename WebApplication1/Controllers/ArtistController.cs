@@ -54,7 +54,7 @@ public class ArtistController : ControllerBase
             return BadRequest("Image file is required");
         }
 
-        string imagePath = _fileService.SaveFile(artistDto.Image, "images");
+        string imagePath = _fileService.SaveFile(artistDto.Image, "images/artists");
 
         var artist = _mapper.Map<ArtistInformation>(artistDto);
         artist.Image = imagePath;
@@ -82,7 +82,7 @@ public class ArtistController : ControllerBase
         {
             _fileService.DeleteFile(existingArtist.Image);
 
-            imagePath = _fileService.SaveFile(updatedArtistDto.Image, "images");
+            imagePath = _fileService.SaveFile(updatedArtistDto.Image, "images/artists");
             existingArtist.Image = imagePath;
         }
         else
