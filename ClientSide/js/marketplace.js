@@ -6,11 +6,15 @@ document.addEventListener("DOMContentLoaded", async function () {
   const images = await response.json();
 
   try {
-    const responseNFT = await fetch('http://localhost:5069/api/NFT');
+    const responseNFT = await fetch('https://localhost:7018/api/NFT');
     const nftsData = await responseNFT.json();
 
-    const responseArtist = await fetch('http://localhost:5069/api/Artist');
+    const responseArtist = await fetch('https://localhost:7018/api/Artist');
     const artistsData = await responseArtist.json();
+
+    const nftsCount = nftsData.length;
+
+    document.getElementById("NFTsCount").textContent = nftsCount;
 
     for (let i = 0; i < numberOfItems; i++) {
       const divItem = document.createElement("div");
@@ -46,11 +50,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             <div class="atropos-rotate">
               <div class="atropos-inner">
               <a href="nftpage.html?id=${nftId}&artist=${nftArtistId}" id="more_card" onclick="passNftId(${nftId})">
-                  <img class="cardrow_img" src="http://localhost:5069${nftImageUrl}" />
+                  <img class="cardrow_img" src="https://localhost:7018${nftImageUrl}" />
                   <div class="marketplace_card_placeholder">
                     <h5 data-atropos-offset="5" class="marketplace_cardname sans">${nftNaming}</h5>
                     <div data-atropos-offset="5" class="more_card_artistcard">
-                      <img class="img-artist-cardrow" src="http://localhost:5069${artistImage}" alt="" />
+                      <img class="img-artist-cardrow" src="https://localhost:7018${artistImage}" alt="" />
                       <p class="marketplace_cardartist base-sans">${artistName}</p>
                     </div>
                     <div data-atropos-offset="5" class="more_addinfo">

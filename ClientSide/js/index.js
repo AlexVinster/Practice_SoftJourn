@@ -16,13 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
   splide.mount();
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const numberOfItems = 3;
 
-  const images = ["1.webp", "2.webp", "3.webp"];
-  const names = ["Distant Galaxy", "Life On Edena", "AstroFiction"];
-  const artistpic = ["1.webp", "2.webp", "3.webp"];
-  const artistname = ["MoonDancer", "NebulaKid", "Spaceone"];
+  try {
+    const responseNFT = await fetch('https://localhost:7018/api/NFT');
+    const nftsData = await responseNFT.json();
+
+    const responseArtist = await fetch('https://localhost:7018/api/Artist');
+    const artistsData = await responseArtist.json();
 
   const container = document.querySelector(".more_cardrow");
 
@@ -30,29 +32,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const divItem = document.createElement("div");
     divItem.classList.add("more_cardrow_item");
 
-    const pos = Math.floor(Math.random() * images.length);
-    const randomImage = images.splice(pos, 1)[0];
-    const randomName = names.splice(pos, 1)[0];
-    const randomArtistpic = artistpic.splice(pos, 1)[0];
-    const randomArtistname = artistname.splice(pos, 1)[0];
+    const posNFT = Math.floor(Math.random() * nftsData.length);
+    const {
+      id: nftId,
+      imageUrl: nftImageUrl,
+      price,
+      name: nftNaming,
+      artistId: nftArtistId,
+    } = nftsData[posNFT];
+    nftsData.splice(posNFT, 1);
+  
+    const artistData = artistsData.find(artist => artist.id === nftArtistId);
+  
+    const {
+      imageUrl: artistImage,
+      name: artistName,
+    } = artistData;
 
     divItem.innerHTML = `
       <div class="atropos my-atropos-${i}">
           <div class="atropos-scale">
             <div class="atropos-rotate">
               <div class="atropos-inner"> 
-                <a href="marketplace.html" class="more_card ">
-                <img src="images/artistpage/artist-pic${randomImage}">
+              <a href="nftpage.html?id=${nftId}&artist=${nftArtistId}" id="more_card" onclick="passNftId(${nftId})">
+              <img class="cardrow_img" src="https://localhost:7018${nftImageUrl}" />
                 <div class="more_card_placeholder">
-                  <h5 data-atropos-offset="5" class="sans">${randomName}</h5>
+                  <h5 data-atropos-offset="5" class="sans">${nftNaming}</h5>
                   <div data-atropos-offset="5" class="more_card_artistcard">
-                    <img src="images/more_avatar${randomArtistpic}" alt="" />
-                    <p class="base-sans">${randomArtistname}</p>
+                    <img class="img-artist-cardrow" src="https://localhost:7018${artistImage}" alt="" />
+                  <p class="base-sans">${artistName}</p>
                   </div>
                   <div data-atropos-offset="5" class="more_addinfo">
                     <div class="more_addinfo_price">
                       <p class="caption-mono grey" data-lang="price">Price</p>
-                      <p style="color: #fff" class="base-mono">1.63 ETH</p>
+                      <p style="color: #fff" class="base-mono">${price} ETH</p>
                     </div>
                     <div class="more_addinfo_bid">
                       <p class="caption-mono grey" data-lang="highestbid">Highest Bid</p>
@@ -69,25 +82,32 @@ document.addEventListener("DOMContentLoaded", function () {
     container.appendChild(divItem);
     atroposFunc(i);
   }
+} catch (error) {console.log('Error');}
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const numberOfItems = 12;
 
-  const creators = [
-    { number: "1", name: "Keepitreal" },
-    { number: "2", name: "DigitLab" },
-    { number: "3", name: "GravityOne" },
-    { number: "4", name: "Juanie" },
-    { number: "5", name: "BlueWhale" },
-    { number: "6", name: "Mr Fox" },
-    { number: "7", name: "Shroomie" },
-    { number: "8", name: "Robotica" },
-    { number: "9", name: "RustyRobot" },
-    { number: "10", name: "Animakid" },
-    { number: "11", name: "Dotgu" },
-    { number: "12", name: "Ghiblier" },
-  ];
+  try {
+    const responseArtist = await fetch('https://localhost:7018/api/Artist');
+    const artistData = await responseArtist.json();
+
+    const responseNFTs = await fetch('https://localhost:7018/api/NFT');
+    const nftData = await responseNFTs.json();
+
+    const artistNFTCount = {};
+
+    // Заповнення artistNFTCount кількістю NFT
+    nftData.forEach((nft) => {
+      const artistId = nft.artistId;
+      artistNFTCount[artistId] = (artistNFTCount[artistId] || 0) + 1;
+    });
+
+    artistData.sort((a, b) => {
+      const countA = artistNFTCount[a.id] || 0;
+      const countB = artistNFTCount[b.id] || 0;
+      return countB - countA; // Сортування від більшого до меншого
+    });
 
   const container = document.querySelector(".toprated_cardrow_list");
 
@@ -101,26 +121,34 @@ document.addEventListener("DOMContentLoaded", function () {
       ulItem.classList.add("third");
     }
 
-    const pos = Math.floor(Math.random() * creators.length);
-    const { number: randomPos, name: randomName } = creators[pos];
-    creators.splice(pos, 1);
+    const {
+      imageUrl: artistImage,
+      name: artistName,
+      // ADD TOTAL SALES !!!
+    } = artistData[i];
+
+    const artistId = artistData[i].id;
+    ulItem.setAttribute("href", `artistpage.html?artistId=${artistId}`);
 
     ulItem.innerHTML = `
       
       <a href="artistpage.html" class="toprated_cardrow_item hvr-shrink">
       
-        <img src="images/artist_avatar${randomPos}.webp" alt="" class="artist_avatar"/>
+        <img src="https://localhost:7018${artistImage}" alt="" class="artist_avatar"/>
         <p class="ranking_number">${i + 1}</p>
         <article class="toprated_info">
-          <h5 class="sans">${randomName}</h5>
+          <h5 class="sans">${artistName}</h5>
           <div class="toprated_info_sales">
-            <p class="toprated_info_salestext grey" data-lang="total_sales">Total Sales:</p>
-            <p class="toprated_info_price">34.53 ETH</p>
+            <p class="toprated_info_salestext grey" data-lang="total_sales">Total: </p>
+            <p class="toprated_info_price">${artistNFTCount[artistData[i].id] || 0} NFTs</p>
           </div>
         </article>
         
       </a>
       `;
     container.appendChild(ulItem);
+  }
+} catch (error) {
+    console.log('Error fetching Artists:', error);
   }
 });

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const urlParams = new URLSearchParams(window.location.search);
   const artistIdParam = urlParams.get('artistId');
 
-  const response = await fetch(`http://localhost:5069/api/Artist/${artistIdParam}`, {
+  const response = await fetch(`https://localhost:7018/api/Artist/${artistIdParam}`, {
     headers : {'Content-Type': 'application/json'}
   });
   const artistData = await response.json();
@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   const container = document.querySelector(".artist_cardrow");
   const detail = document.querySelector(".artistinfo");
   
-  const responseAllNFTs = await fetch('http://localhost:5069/api/NFT');
+  const responseAllNFTs = await fetch('https://localhost:7018/api/NFT');
   const allNFTsData = await responseAllNFTs.json();
 
-  const responseAllArtists = await fetch('http://localhost:5069/api/Artist');
+  const responseAllArtists = await fetch('https://localhost:7018/api/Artist');
   const allArtistsData = await responseAllArtists.json();
 
   for (let i = 0; i < numberOfItems; i++) {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     const {
-      imageUrl: allArtstsImages,
+      imageUrl: allArtistsImages,
       name: allArtistsName,
     } = artistDataForNFT;
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       bio: biography,
     } = artistData;
 
-    artistImagePlaceholder.src = `http://localhost:5069${artistImage}`;
+    artistImagePlaceholder.src = `https://localhost:7018${artistImage}`;
 
     divItem.innerHTML = `
     <div class="atropos my-atropos-${i}">
@@ -65,11 +65,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       <div class="atropos-rotate">
         <div class="atropos-inner">
           <a href="nftpage.html?id=${allId}&artist=${allArtistId}" class="more_card" onclick="passNftId(${allId})">
-            <img class="cardrow_img" src="http://localhost:5069${allImageUrl}" />
+            <img class="cardrow_img" src="https://localhost:7018${allImageUrl}" />
             <div class="marketplace_card_placeholder">
               <h5 data-atropos-offset="5" class="marketplace_cardname sans">${allName}</h5>
               <div data-atropos-offset="5" class="more_card_artistcard">
-                <img class="img-artist-cardrow" src="http://localhost:5069${allArtstsImages}" alt="${allArtistsName}" />
+                <img class="img-artist-cardrow" src="https://localhost:7018${allArtistsImages}" alt="${allArtistsName}" />
                 <p class="marketplace_cardartist base-sans">${allArtistsName}</p>
               </div>
               <div data-atropos-offset="5" class="more_addinfo">

@@ -21,13 +21,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     const decodedToken = parseJwt(token);
     console.log('Decoded:', decodedToken);
 
-    // Перевірка наявності ролі "Admin"
     const isAdmin = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] &&
                     decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].includes('Admin');
 
     if (isAdmin) {
         console.log('Користувач є адміном.');
-        // Ваш код для адміністратора
     } else {
         console.log('Користувач не є адміном.');
         window.location.href = './index.html'
@@ -41,7 +39,7 @@ async function showUsers() {
     document.getElementById('users').style.display = 'block';
 
     try {
-        const response = await fetch('http://localhost:5069/api/Users');
+        const response = await fetch('https://localhost:7018/api/Users');
         const usersData = await response.json();
 
         const usersTableBody = document.getElementById('usersTableBody');
@@ -61,7 +59,7 @@ async function showNFTs() {
     document.getElementById('nfts').style.display = 'block';
 
     try {
-        const response = await fetch('http://localhost:5069/api/NFT');
+        const response = await fetch('https://localhost:7018/api/NFT');
         const nftsData = await response.json();
 
         const nftsTableBody = document.getElementById('nftsTableBody');
@@ -74,7 +72,7 @@ async function showNFTs() {
                             <td>${nft.price}</td>
                             <td>${nft.description}</td>
                             <td>${nft.imageUrl}</td>
-                            <td><img src="http://localhost:5069${nft.imageUrl}" alt="${nft.name}" style="max-width: 100px; max-height: 100px;"></td>
+                            <td><img src="https://localhost:7018${nft.imageUrl}" alt="${nft.name}" style="max-width: 100px; max-height: 100px;"></td>
                             <td>${nft.artistId}</td>
                             <td class="admin-actions">
                             <button class="btn modal_button hvr-shrink small-btn" onclick="editNFT(${nft.id})">Edit</button>
@@ -90,7 +88,7 @@ async function showArtists() {
     document.getElementById('artists').style.display = 'block';
 
     try {
-        const response = await fetch('http://localhost:5069/api/Artist');
+        const response = await fetch('https://localhost:7018/api/Artist');
         const usersData = await response.json();
 
         const usersTableBody = document.getElementById('artistsTableBody');
@@ -105,7 +103,7 @@ async function showArtists() {
                             <td>${artist.walletAddress}</td>
                             <td>${artist.links}</td>
                             <td>${artist.imageUrl}</td>
-                            <td><img src="http://localhost:5069${artist.imageUrl}" alt="${artist.name}" style="max-width: 100px; max-height: 100px;"></td>
+                            <td><img src="https://localhost:7018${artist.imageUrl}" alt="${artist.name}" style="max-width: 100px; max-height: 100px;"></td>
                             <td class="admin-actions">
                             <button class="btn modal_button hvr-shrink small-btn" onclick="editArtist(${artist.id})">Edit</button>
                             <button class="btn modal_button hvr-shrink small-btn" onclick="deleteArtist(${artist.id})">Delete</button></td>
@@ -139,7 +137,7 @@ async function updateNFT() {
             formData.append('image', updatedImageFile);
         }
 
-        const response = await fetch(`http://localhost:5069/api/NFT/${nftData.id}`, {
+        const response = await fetch(`https://localhost:7018/api/NFT/${nftData.id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -184,7 +182,7 @@ async function updateArtist() {
             formData.append('image', updatedImageFile);
         }
 
-        const response = await fetch(`http://localhost:5069/api/Artist/${artistData.id}`, {
+        const response = await fetch(`https://localhost:7018/api/Artist/${artistData.id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -229,15 +227,15 @@ function toggleSidebar() {
 }
 
 function editNFT(id) {
-    fetch(`http://localhost:5069/api/NFT/${id}`)
+    fetch(`https://localhost:7018/api/NFT/${id}`)
         .then(response => response.json())
         .then(nftData => {
             currentNFTId = id;
 
             document.getElementById('editNFTName').value = nftData.name;
             document.getElementById('editNFTDescription').value = nftData.description;
-            const formattedPrice = nftData.price.toString().replace('.', ',');
-            document.getElementById('editNFTPrice').value = formattedPrice;
+            // const formattedPrice = nftData.price.toString().replace('.', ',');
+            document.getElementById('editNFTPrice').value = nftData.price;
             document.getElementById('editNftArtistId').value = nftData.artistId;
 
             document.getElementById('editNFTModal').style.display = 'block';
@@ -246,7 +244,7 @@ function editNFT(id) {
 }
 
 function editArtist(id) {
-    fetch(`http://localhost:5069/api/Artist/${id}`)
+    fetch(`https://localhost:7018/api/Artist/${id}`)
         .then(response => response.json())
         .then(artistData => {
             currentArtistId = id;
@@ -263,7 +261,7 @@ function editArtist(id) {
 
 async function deleteArtist(id) {
     try {
-        const response = await fetch(`http://localhost:5069/api/Artist/${id}`, {
+        const response = await fetch(`https://localhost:7018/api/Artist/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -291,7 +289,7 @@ async function deleteArtist(id) {
 
 async function deleteNFT(id) {
     try {
-        const response = await fetch(`http://localhost:5069/api/NFT/${id}`, {
+        const response = await fetch(`https://localhost:7018/api/NFT/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -345,7 +343,7 @@ async function addNFT() {
     formData.append('image', imageFile);
 
     try {
-        const response = await fetch('http://localhost:5069/api/NFT', {
+        const response = await fetch('https://localhost:7018/api/NFT', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -389,7 +387,7 @@ async function addArtist() {
     formData.append('image', imageFile);
 
     try {
-        const response = await fetch('http://localhost:5069/api/Artist', {
+        const response = await fetch('https://localhost:7018/api/Artist', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,

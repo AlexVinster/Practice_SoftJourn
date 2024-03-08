@@ -40,10 +40,10 @@ window.addEventListener("resize", tabText);
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const responseArtists = await fetch('http://localhost:5069/api/Artist');
+    const responseArtists = await fetch('https://localhost:7018/api/Artist');
     const artistData = await responseArtists.json();
 
-    const responseNFTs = await fetch('http://localhost:5069/api/NFT');
+    const responseNFTs = await fetch('https://localhost:7018/api/NFT');
     const nftData = await responseNFTs.json();
 
     // відстеження кількості створених NFT кожним артистом
@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const divItem = document.createElement("a");
       divItem.classList.add("rankings_table_item");
       divItem.classList.add("hvr-shrink");
+      
       const {
         imageUrl: artistImage,
         name: artistName
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       divItem.innerHTML = `
         <p style="font-size:16px" class="table_num caption-mono">${i + 1}</p>
         <div class="table_name rankings_table_artist">
-          <img src="http://localhost:5069${artistImage}" alt="" />
+          <img src="https://localhost:7018${artistImage}" alt="" />
           <p>${artistName}</p>
         </div>
         <p style="color: #00ac4f" class="table_change base-sans">+1.41%</p>
