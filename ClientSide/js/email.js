@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var modalText = document.getElementById('modalText');
   var closeModal = document.getElementById('closeModal');
 
+  var footerEmailInput = document.getElementById('footerInput');
+  var footerSubscribeBtn = document.getElementById('footerbtn');
+  var subscribeModal = document.getElementById('subscribeModal');
+
   modal.style.display = 'none';
 
   function isValidEmail(email) {
@@ -13,22 +17,28 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   var subscribeClickHandler = async function () {
-    if (emailInput.value.trim() === '') {
+    var email = emailInput.value.trim();
+    var footerEmail = footerEmailInput.value.trim();
+
+    if (email === '' && footerEmail === '') {
       modalText.textContent = 'Please enter your email address.';
-    } else if (!isValidEmail(emailInput.value.trim())) {
+      modal.style.display = 'flex';
+    } else if ((email !== '' && !isValidEmail(email)) || (footerEmail !== '' && !isValidEmail(footerEmail))) {
       modalText.textContent = 'Email Invalid.';
+      modal.style.display = 'flex';
     } else {
-      var successMessage = 'Your E-Mail: <span style="color: green;">' + emailInput.value.trim() + '</span> successfully subscribed.';
+      var successMessage = 'Your E-Mail: <span style="color: green;">' + (email || footerEmail) + '</span> successfully subscribed.';
       modalText.innerHTML = successMessage;
 
-      var email = emailInput.value.trim();
       var subject = 'Hello Email';
       var message = 'Thank you for subscribing to our newsletter!\nWe look forward to keeping you updated with our latest news and promotions.\nRegards,\nYour NFTMarketplace';
 
-      await SendHelloEmail(email, subject, message);
-    }
+      if (email !== '') {
+        await SendHelloEmail(email, subject, message);
+      }
 
-    modal.style.display = 'flex';
+      modal.style.display = 'flex';
+    }
   };
 
   subscribeBtn.addEventListener('click', subscribeClickHandler);
@@ -43,32 +53,31 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // var footerEmailInput = document.getElementById('footerInput');
-  // var footerSubscribeBtn = document.getElementById('footerbtn');
+  footerSubscribeBtn.addEventListener('click', function (event) {
+    subscribeClickHandler(event, subscribeModal);
+  });
 
-  // footerSubscribeBtn.addEventListener('click', function (event) {
-  //   subscribeClickHandler(event, subscribeModal);
-  // });
+  footerEmailInput.addEventListener('input', function () {
+    if (isValidEmail(footerEmailInput.value.trim())) {
+      footerEmailInput.style.color = 'green';
+    } else {
+      footerEmailInput.style.color = ''; 
+    }
+  });
 
-  // footerEmailInput.addEventListener('input', function () {
-  //   if (isValidEmail(footerEmailInput.value.trim())) {
-  //     footerEmailInput.style.color = 'green';
-  //   } else {
-  //     footerEmailInput.style.color = ''; 
-  //   }
-  // });
+  emailInput.addEventListener('input', function () {
+    if (isValidEmail(emailInput.value.trim())) {
+      emailInput.style.color = 'green';
+    } else {
+      emailInput.style.color = ''; 
+    }
+  });
 
   async function SendHelloEmail(email, subject, message) {
-    var messageData = {
-      email: email,
-      subject: subject,
-      message: message
-    }
-
     var formData = new FormData();
-    formData.append('email', messageData.email);
-    formData.append('subject', messageData.subject);
-    formData.append('message', messageData.message);
+    formData.append('email', email);
+    formData.append('subject', subject);
+    formData.append('message', message);
 
     try {
       // Check if required fields are present
