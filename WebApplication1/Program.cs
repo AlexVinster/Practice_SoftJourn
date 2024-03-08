@@ -25,6 +25,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Add RoleManager<IdentityRole> service
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
+builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 
 // For interfaces
 builder.Services.AddScoped<INFTService, NFTService>();

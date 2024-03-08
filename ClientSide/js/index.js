@@ -82,7 +82,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     container.appendChild(divItem);
     atroposFunc(i);
   }
-} catch (error) {console.log('Error');}
+} catch (error) {
+  console.log('Error fetching NFTs: ', error);
+}
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <p class="toprated_info_price">${artistNFTCount[artistData[i].id] || 0} NFTs</p>
           </div>
         </article>
-        
+      
       </a>
       `;
     container.appendChild(ulItem);
