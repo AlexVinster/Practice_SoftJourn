@@ -33,6 +33,7 @@ function registerUser() {
   const formData = new FormData(form);
   const username = formData.get('username');
   const email = formData.get('email');
+
   const password1 = formData.get('password1');
   const password2 = document.getElementById('password2').value;
   let password;
@@ -57,7 +58,7 @@ function registerUser() {
       if (!usernameAvailable) {
         alert("Цей username вже використовується. Будь ласка, виберіть інший.");
       } else {
-        // Продовжуємо з реєстрацією
+        // Продовження реєстрації
         if (!isValidPassword(password)) {
           alert("Будь ласка, введіть пароль, який відповідає вимогам:\nМістить хоча б одну цифру\nМістить велику літеру\nМістить спеціальний символ");
           return;
