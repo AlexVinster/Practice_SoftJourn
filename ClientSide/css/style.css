@@ -1042,19 +1042,19 @@ body {
   width: 315px;
 }
 
-#nameicon {
+.nameicon {
   background-image: url(../images/formuser.svg);
   background-repeat: no-repeat;
   background-position: 15px 13px;
 }
 
-#emailicon {
+.emailicon {
   background-image: url(../images/formemail.svg);
   background-repeat: no-repeat;
   background-position: 15px 13px;
 }
 
-#passicon {
+.passicon {
   background-image: url(../images/formpass.svg);
   background-repeat: no-repeat;
   background-position: 15px 13px;
