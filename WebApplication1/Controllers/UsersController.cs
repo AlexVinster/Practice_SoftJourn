@@ -27,4 +27,18 @@ public class UsersController : ControllerBase
             return StatusCode(500, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
         }
     }
+
+    [HttpGet("checkUsername")]
+    public async Task<IActionResult> CheckUsernameAvailability(string username)
+    {
+        try
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return Ok(new { Available = user == null });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
 }

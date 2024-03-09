@@ -85,29 +85,33 @@
                 selling NFTs.
               </p>
             </div>
-            <form action="URL" class="createacc_form">
+            <form id="registrationForm" class="createacc_form">
               <input
-                id="nameicon"
+                id="username"
                 type="text"
                 placeholder="Username"
-                class="form_input">
+                class="form_input"
+                name="username">
               <input
                 id="emailicon"
                 type="email"
                 placeholder="Email Address"
-                class="form_input">
+                class="form_input"
+                name="email">
               <input
-                id="passicon"
+                id="password1"
                 type="password"
                 placeholder="Password"
-                class="form_input">
+                class="form_input"
+                name="password1">
               <input
-                id="repassicon"
+                id="password2"
                 type="password"
                 placeholder="Confirm Password"
-                class="form_input">
+                class="form_input"
+                name="password2">
             </form>
-            <a href="#" class="createacc_button btn hvr-shrink">Create Account</a>
+            <div id="registerButton" class="createacc_button btn hvr-shrink">Create Account</div>
           </div>
         </div>
       </section>
@@ -181,5 +185,6 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/register.js"></script>
   </body>
 </html>
