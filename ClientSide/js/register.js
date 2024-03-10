@@ -52,6 +52,12 @@ function registerUser() {
     password = password1;
   }
 
+  // Перевірка наявності пробілів у полі username
+  if (username.includes(' ')) {
+    alert("Ім'я користувача не повинно містити пробілів.");
+    return;
+  }
+
   // Перевірка доступності username
   isUsernameAvailable(username)
     .then(usernameAvailable => {
