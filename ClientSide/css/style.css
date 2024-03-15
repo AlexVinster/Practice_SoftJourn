@@ -1658,6 +1658,7 @@ body {
 }
 
 .header_close_menu {
+  display: none;
   position: absolute;
   top: 18px;
   right: 30px;
@@ -2779,4 +2780,12 @@ body {
   padding: 10px;
 }
 
+.login-link {
+  text-align: center;
+  color: #fff;
+}
 
+.login-link a {
+  color: #fff;
+  text-decoration: underline;
+}

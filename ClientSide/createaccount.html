@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.png">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/authorized.js"></script>
   </head>
   <body>
     <div class="body-wrapper">
@@ -51,7 +52,7 @@
             <a
               href="createaccount.html"
               class="header_menuitem_button btn hvr-shrink">
-              <img src="images/user.svg" alt="User" >
+              <img src="images/user.svg" alt="User" id="signUpButton">
               <p class="base-sans">Sign Up</p></a>
             <div class="header_join">
               <p class="base-sans">Join our community</p>
@@ -108,8 +109,12 @@
                 placeholder="Confirm Password"
                 class="form_input passicon"
                 name="password2"> <!-- id=" repassicon" -->
-            </form>
+            <!-- /form -->
             <div id="registerButton" class="createacc_button btn hvr-shrink">Create Account</div>
+              <div class="login-link">
+                <p class="base-sans">Registered? <a href="admin-login.html">Login!</a></p>
+              </div>
+            </form>
           </div>
         </div>
       </section>
