@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApplication1.Auth;
 
 [ApiController]
@@ -28,6 +30,30 @@ public class UsersController : ControllerBase
         }
     }
 
+    [Authorize]
+    [HttpGet("currentUser")]
+    public async Task<IActionResult> GetLoggedInUserID()
+    {
+        try
+        {
+            // Отримати ім'я користувача з клеймів
+            string username = User.Identity.Name;
+
+            // Знайти користувача за ім'ям користувача
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+                return NotFound(new { Status = "Error", Message = "User not found" });
+
+            return Ok(new { userID = user.Id });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
+
+
     [HttpGet("checkUsername")]
     public async Task<IActionResult> CheckUsernameAvailability(string username)
     {
@@ -55,4 +81,62 @@ public class UsersController : ControllerBase
             return StatusCode(500, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
         }
     }
+
+    [Authorize]
+    [HttpPost("changeUsername")]
+    public async Task<IActionResult> ChangeUsername(string userId, string newUsername)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new { Status = "Error", Message = "User not found" });
+
+            // New username
+            user.UserName = newUsername;
+
+            // Save to database
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+                return Ok(new { Status = "Success", Message = "Username updated successfully" });
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Failed to update username", Errors = result.Errors });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
+
+
+    [Authorize]
+    [HttpPost("changePassword")]
+    public async Task<IActionResult> ChangePassword(string userId, string currentPassword, string newPassword)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new { Status = "Error", Message = "User not found" });
+
+            // Check current password
+            var passwordValid = await _userManager.CheckPasswordAsync(user, currentPassword);
+            if (!passwordValid)
+                return BadRequest(new { Status = "Error", Message = "Invalid current password" });
+
+            // Change password
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (result.Succeeded)
+                return Ok(new { Status = "Success", Message = "Password changed successfully" });
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Failed to change password", Errors = result.Errors });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
+
 }

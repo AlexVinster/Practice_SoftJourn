@@ -107,6 +107,7 @@ public class ArtistController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteArtist(int id)
     {
         var artist = await _artistService.GetArtistById(id);
