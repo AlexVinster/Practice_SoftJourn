@@ -8,18 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="images/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <style type="text/css">
         body {
+            padding-top: 60px;
             background: #2b2b2b;
             color: #fff;
-            margin-top: 20px;
+            /* margin-top: 40px; */
         }
 
         .ui-w-80 {
             width: 80px !important;
             height: auto;
         }
-        
+
         .btn-twitter {
             color: #a6a6a6;
         }
@@ -46,6 +48,7 @@
 
         .btn {
             cursor: pointer;
+            display: inline-block;
         }
 
         .text-light {
@@ -66,6 +69,14 @@
 
         .form-label {
             color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
         }
 
         .card {
@@ -98,7 +109,6 @@
         html:not(.dark-style) .account-settings-links .list-group-item.active {
             /* background: transparent !important; */
             background-color: #b2b2b2;
-
         }
 
         .account-settings-multiselect~.select2-container {
@@ -140,10 +150,112 @@
             padding: 0.85rem 1.5rem;
             border-color: rgba(24, 28, 33, 0.03) !important;
         }
+
+        .header_inner {
+            padding: 15px 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .header_logo_container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hvr-shrink {
+            /* display: inline-block; */
+            vertical-align: middle;
+            transform: perspective(1px) translateZ(0);
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+            transition-duration: 0.3s;
+            transition-property: transform;
+        }
+
+        .hvr-shrink:hover,
+        .hvr-shrink:focus,
+        .hvr-shrink:active {
+            transform: scale(0.92);
+        }
+
+        .header_storefrontimg {
+            height: 32px;
+            width: 32px;
+        }
+
+        .header_marketplaceimg {
+            height: 20px;
+            width: 200px;
+        }
+
+        .sign-up-btn {
+            display: flex;
+        }
     </style>
 </head>
 
 <body>
+    <div class="overlay" onclick="toggleClasses()"></div>
+    <header class="header">
+      <section class="header_inner">
+        <nav class="header_logo hvr-shrink">
+          <a href="index.html" class="header_logo_container">
+            <img src="images/storefront.svg" alt="NFT Marketplace" class="header_storefrontimg">
+            <img src="images/marketplace.svg" alt="NFT Marketplace" class="header_marketplaceimg">
+          </a>
+        </nav>
+        <a class="header_menubtn" onclick="toggleClasses()">
+          <img src="images/burgermenu.svg" alt="Menu" class="header_burgermenu">
+        </a>
+        <div id="languageSwitcher" class="lang header_menuitem">
+          <a href="#" data-lang="en" class="hvr-shrink">EN</a>
+          <a href="#" data-lang="ua" class="hvr-shrink">UA</a>
+        </div>
+        <nav class="header_menu">
+          <a class="header_close_menu" onclick="toggleClasses()">
+            <img src="images/burgermenu.svg" alt="Menu" class="header_burgermenu">
+          </a>
+          <a href="marketplace.html" class="header_menuitem hvr-shrink">
+            <img src="images/market.svg" alt="Icon of market">
+            <p class="base-sans" data-lang="marketplace">Marketplace</p>
+          </a>
+          <a href="topcreators.html" class="header_menuitem hvr-shrink">
+            <img src="images/rank.svg" alt="Icon of rank">
+            <p class="base-sans" data-lang="rankings">Rankings</p>
+          </a>
+          <a href="connectwallet.html" class="header_menuitem hvr-shrink"
+            ><img src="images/wallet.svg" alt="Icon of wallet">
+            <p class="base-sans" data-lang="connect_wallet">Connect a wallet</p></a>
+          <a href="createaccount.html" class="header_menuitem_button sign-up-btn btn hvr-shrink" id="signUpButton">
+            <img src="images/user.svg" alt="Icon of user">
+            <p class="base-sans" data-lang="sign_up">Sign Up</p>
+          </a>
+          <div class="header_join">
+            <p class="base-sans" data-lang="join_community">Join our community</p>
+            <div class="footer_socialpics">
+              <a href="https://discord.com/">
+                <img src="images/discord.svg" alt="Discord">
+              </a>
+              <a href="https://youtube.com/">
+                <img src="images/youtube.svg" alt="Youtube">
+              </a>
+              <a href="https://twitter.com/">
+                <img src="images/twitter.svg" alt="Twitter">
+              </a>
+              <a href="https://instagram.com/">
+                <img src="images/instagram.svg" alt="Instagram">
+              </a>
+            </div>
+            <div id="languageSwitcher" class="lang-mobile">
+              <a href="#" data-lang="en">EN</a>
+              <a href="#" data-lang="ua">UA</a>
+            </div>
+          </div>
+        </nav>
+      </section>
+    </header>
     <div class="container light-style flex-grow-1 container-p-y">
         <h4 class="font-weight-bold py-3 mb-4">
             Account settings
@@ -169,8 +281,8 @@
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
-                            <div class="card-body media align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt
+                            <!-- <div class="card-body media align-items-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image"
                                     class="d-block ui-w-80">
                                 <div class="media-body ml-4">
                                     <label class="btn btn-outline-primary">
@@ -178,18 +290,15 @@
                                         <input type="file" class="account-settings-fileinput">
                                     </label> &nbsp;
                                     <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                                    <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                    <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K
+                                    </div>
                                 </div>
-                            </div>
-                            <hr class="border-light m-0">
+                            </div> -->
+                            <!-- <hr class="border-light m-0"> -->
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
                                     <input type="text" class="form-control mb-1" value="nmaxwell">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" value="Nelle Maxwell">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">E-mail</label>
@@ -317,7 +426,8 @@
                                             <span class="switcher-yes"></span>
                                             <span class="switcher-no"></span>
                                         </span>
-                                        <span class="switcher-label">Email me when someone comments on my article</span>
+                                        <span class="switcher-label">Email me when someone comments on my
+                                            article</span>
                                     </label>
                                 </div>
                                 <div class="form-group">

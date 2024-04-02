@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (signUpButton) {
             signUpButton.classList.remove("header_menuitem_button");
             signUpButton.innerHTML = '<img src="../images/formuser.svg">';
-            signUpButton.setAttribute('href', './profile.html');
+            signUpButton.setAttribute('href', './account_settings.html');
         }
     } else {
         console.error('Unauthorized');
