@@ -32,7 +32,7 @@ public class UsersController : ControllerBase
 
     [Authorize]
     [HttpGet("currentUser")]
-    public async Task<IActionResult> GetLoggedInUserID()
+    public async Task<IActionResult> GetLoggedInUserInfo()
     {
         try
         {
@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
             if (user == null)
                 return NotFound(new { Status = "Error", Message = "User not found" });
 
-            return Ok(new { userID = user.Id });
+            return Ok(new { userId = user.Id, username = user.UserName, email = user.Email });
         }
         catch (Exception ex)
         {

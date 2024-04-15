@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (token) {
         if (signUpButton) {
             signUpButton.classList.remove("header_menuitem_button");
-            signUpButton.innerHTML = '<img src="../images/formuser.svg">';
+            signUpButton.innerHTML = '<img src="./images/formuser.svg">';
             signUpButton.setAttribute('href', './account_settings.html');
         }
     } else {
