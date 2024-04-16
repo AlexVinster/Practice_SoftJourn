@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   const numberOfItems = 12;
   const container = document.querySelector(".marketplace_cardrow");
 
-  const response = await fetch('./json/artworks.json');
-  const images = await response.json();
+  // const response = await fetch('./json/artworks.json');
+  // const images = await response.json();
+  const responseNFT = await fetch('https://localhost:7018/api/NFT');
+  console.log(responseNFT);
 
   try {
     const responseNFT = await fetch('https://localhost:7018/api/NFT');

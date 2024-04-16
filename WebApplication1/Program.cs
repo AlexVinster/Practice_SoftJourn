@@ -31,6 +31,9 @@ builder.Services.AddScoped<IEmailSender, EmailSenderService>();
 builder.Services.AddScoped<INFTService, NFTService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
 
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -68,6 +71,11 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllers();
+
+/*builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});*/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

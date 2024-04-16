@@ -9,5 +9,7 @@ namespace WebApplication1.Interfaces
         Task AddArtwork(Artwork artwork);
         Task UpdateArtwork(int artworkId, Artwork updatedArtwork);
         Task DeleteArtwork(int artworkId);
+/*        Task BuyArtwork(int artworkId, string buyerId);
+*/
     }
 }

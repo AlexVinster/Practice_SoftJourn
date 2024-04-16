@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using WebApplication1.Data;
 using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
@@ -60,5 +58,35 @@ namespace WebApplication1.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+
+/*        public async Task BuyArtwork(int artworkId, string buyerId)
+        {
+            var artwork = await _context.Artworks.FindAsync(artworkId);
+
+            if (artwork != null)
+            {
+                var buyer = await _context.Users.FindAsync(buyerId);
+
+                if (buyer != null)
+                {
+                    buyer.WalletBalance -= artwork.Price;
+
+                    // Оновлення власника роботи та відмітка про продаж
+                    artwork.OwnerId = buyerId;
+                    artwork.IsSold = true;
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new ArgumentException("Buyer not found.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Artwork not found.");
+            }
+        }*/
     }
 }

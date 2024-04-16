@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using WebApplication1.Auth;
 using WebApplication1.Data.Entities;
 using WebApplication1.Interfaces;
 using WebApplication1.Models.DTOs.Artwork;
@@ -13,12 +16,16 @@ public class NFTController : ControllerBase
     private readonly INFTService _nftService;
     private readonly IMapper _mapper;
     private readonly IFileService _fileService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public NFTController(INFTService nftService, IMapper mapper, IFileService fileService)
+
+    public NFTController(INFTService nftService, IMapper mapper, IFileService fileService, UserManager<ApplicationUser> userManager)
     {
         _nftService = nftService;
         _mapper = mapper;
         _fileService = fileService;
+        _userManager = userManager;
+
     }
 
     [HttpGet]
@@ -119,4 +126,50 @@ public class NFTController : ControllerBase
         await _nftService.DeleteArtwork(id);
         return Ok();
     }
+
+    /*[HttpPost("buy/{id}")]
+    public async Task<ActionResult> BuyArtwork(int id)
+    {
+        var artwork = await _nftService.GetArtworkById(id);
+
+        if (artwork == null)
+        {
+            return NotFound("Artwork not found.");
+        }
+
+        var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var buyer = await _userManager.FindByIdAsync(buyerId);
+
+        if (buyer == null)
+        {
+            return BadRequest("Buyer not found.");
+        }
+
+        if (artwork.OwnerId == buyer.Id)
+        {
+            return BadRequest("You already own this artwork.");
+        }
+
+        if (artwork.IsSold)
+        {
+            return BadRequest("This artwork is already sold.");
+        }
+
+        // Check if the buyer has sufficient balance to buy the artwork
+        if (buyer.WalletBalance < artwork.Price)
+        {
+            return BadRequest("Insufficient balance to buy this artwork.");
+        }
+
+        try
+        {
+            // Perform the purchase operation
+            await _nftService.BuyArtwork(id, buyerId);
+            return Ok("Artwork purchased successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error purchasing artwork: {ex.Message}");
+        }
+    }*/
 }

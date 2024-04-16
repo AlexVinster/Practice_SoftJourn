@@ -10,6 +10,9 @@ namespace WebApplication1.Data.Entities
         public string Description { get; set; }
         public decimal Price { get; set; }
 
+        public string OwnerId { get; set; }  // Owner's user ID
+        public bool IsSold { get; set; }      // Indicates if the artwork is sold
+
         // Foreign key with Artists
         public int ArtistId { get; set; }
         public ArtistInformation Artist { get; set; }

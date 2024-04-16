@@ -83,7 +83,7 @@ public class UsersController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("changeUsername")]
+    [HttpPut("changeUsername")]
     public async Task<IActionResult> ChangeUsername(string userId, string newUsername)
     {
         try
@@ -111,7 +111,7 @@ public class UsersController : ControllerBase
 
 
     [Authorize]
-    [HttpPost("changePassword")]
+    [HttpPut("changePassword")]
     public async Task<IActionResult> ChangePassword(string userId, string currentPassword, string newPassword)
     {
         try
