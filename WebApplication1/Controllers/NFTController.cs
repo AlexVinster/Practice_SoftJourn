@@ -127,8 +127,9 @@ public class NFTController : ControllerBase
         return Ok();
     }
 
-    /*[HttpPost("buy/{id}")]
-    public async Task<ActionResult> BuyArtwork(int id)
+
+    [HttpPost("buy/{id}")]
+    public async Task<ActionResult> BuyNFT(int id, [FromQuery] string paymentTokenSymbol, [FromQuery] string buyerId)
     {
         var artwork = await _nftService.GetArtworkById(id);
 
@@ -137,39 +138,48 @@ public class NFTController : ControllerBase
             return NotFound("Artwork not found.");
         }
 
-        var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var buyer = await _userManager.FindByIdAsync(buyerId);
-
-        if (buyer == null)
-        {
-            return BadRequest("Buyer not found.");
-        }
-
-        if (artwork.OwnerId == buyer.Id)
-        {
-            return BadRequest("You already own this artwork.");
-        }
-
-        if (artwork.IsSold)
-        {
-            return BadRequest("This artwork is already sold.");
-        }
-
-        // Check if the buyer has sufficient balance to buy the artwork
-        if (buyer.WalletBalance < artwork.Price)
-        {
-            return BadRequest("Insufficient balance to buy this artwork.");
-        }
-
         try
         {
-            // Perform the purchase operation
-            await _nftService.BuyArtwork(id, buyerId);
+            await _nftService.BuyArtwork(id, buyerId, paymentTokenSymbol);
             return Ok("Artwork purchased successfully.");
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error purchasing artwork: {ex.Message}");
         }
-    }*/
+    }
+
+    [HttpPost("{artworkId}/forsale")]
+    public async Task<IActionResult> PutArtworkForSale(int artworkId, [FromQuery] decimal price)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        try
+        {
+            await _nftService.SetArtworkForSale(artworkId, userId, price);
+            return Ok("Artwork is now for sale.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error putting artwork for sale: {ex.Message}");
+        }
+    }
+
+
+    [HttpPost("{id}/notforsale")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult> SetArtworkNotForSale(int id)
+    {
+        try
+        {
+            await _nftService.SetArtworkNotForSale(id);
+            return Ok("Artwork is no longer for sale.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error setting artwork not for sale: {ex.Message}");
+        }
+    }
+
+
 }

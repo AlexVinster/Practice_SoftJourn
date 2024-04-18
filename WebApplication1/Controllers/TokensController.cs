@@ -62,9 +62,9 @@ namespace WebApplication1.Controllers
 
         [HttpPost("create")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateToken(string name, string symbol, decimal totalSupply)
+        public async Task<IActionResult> CreateToken(string name, string symbol, decimal totalSupply, decimal exchangeRateToDollars)
         {
-            var token = await _tokenService.CreateTokenAsync(name, symbol, totalSupply);
+            var token = await _tokenService.CreateTokenAsync(name, symbol, totalSupply, exchangeRateToDollars);
 
             if (token == null)
             {
@@ -77,13 +77,6 @@ namespace WebApplication1.Controllers
         [HttpPost("add-balance")]
         public async Task<IActionResult> AddTokenBalance([FromBody] AddTokenBalanceDto request)
         {
-            // Перевіряємо, чи запит валідний
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // сервіс для додавання балансу
             try
             {
                 await _tokenService.AddTokenBalanceAsync(request.UserId, request.TokenSymbol, request.Amount);
@@ -109,16 +102,9 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateToken(int tokenId, [FromBody] TokenDto model)
         {
-            // Перевіряємо, чи запит валідний
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Оновлюємо токен
             try
             {
-                var token = await _tokenService.UpdateTokenAsync(tokenId, model.Name, model.Symbol, model.TotalSupply);
+                var token = await _tokenService.UpdateTokenAsync(tokenId, model.Name, model.Symbol, model.TotalSupply, model.ExchangeRateToDollars);
                 return Ok(token);
             }
             catch (Exception ex)
@@ -126,5 +112,22 @@ namespace WebApplication1.Controllers
                 return StatusCode(500, $"Error updating token: {ex.Message}");
             }
         }
+
+
+        [HttpDelete("{tokenId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteToken(int tokenId)
+        {
+            try
+            {
+                var result = await _tokenService.DeleteTokenAsync(tokenId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error deleting token: {ex.Message}");
+            }
+        }
+
     }
 }

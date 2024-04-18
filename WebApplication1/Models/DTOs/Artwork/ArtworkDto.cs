@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace WebApplication1.Models.DTOs.Artwork
+﻿namespace WebApplication1.Models.DTOs.Artwork
 {
     public class ArtworkDto
     {
@@ -9,7 +7,9 @@ namespace WebApplication1.Models.DTOs.Artwork
         public string Description { get; set; }
         public decimal Price { get; set; }
         public IFormFile? Image { get; set; }
-
+        public bool ForSale { get; set; }
         public int ArtistId { get; set; }
+        public bool IsSold { get; set; }
+        public string OwnerId { get; set; }
     }
 }

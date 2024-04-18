@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Symbol { get; set; }
         public decimal TotalSupply { get; set; }
+        public decimal ExchangeRateToDollars { get; set; }
     }
 }

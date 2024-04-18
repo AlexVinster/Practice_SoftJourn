@@ -8,6 +8,9 @@
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public int ArtistId { get; set; }
+        public string OwnerId { get; set; }
+        public bool ForSale { get; set; }
+        public bool IsSold { get; set; }
+        public string TokenSymbol { get; set; }
     }
-
 }

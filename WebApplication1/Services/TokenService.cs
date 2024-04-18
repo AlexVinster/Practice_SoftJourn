@@ -18,7 +18,7 @@ namespace WebApplication1.Services
         {
             _context = context;
         }
-        
+
         public async Task<IEnumerable<Token>> GetAllTokensAsync()
         {
             return await _context.Tokens.ToListAsync();
@@ -36,6 +36,7 @@ namespace WebApplication1.Services
                     Name = tokenEntity.Name,
                     Symbol = tokenEntity.Symbol,
                     TotalSupply = tokenEntity.TotalSupply,
+                    ExchangeRateToDollars = tokenEntity.ExchangeRateToDollars, // Додано обмінний курс
                     Transactions = tokenEntity.Transactions
                 };
                 return token;
@@ -123,24 +124,41 @@ namespace WebApplication1.Services
             return transaction;
         }
 
-
-        public async Task<Token?> CreateTokenAsync(string name, string symbol, decimal totalSupply)
+        private async Task<decimal> CalculateExchangeRateToDollars(string tokenSymbol)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(symbol) || totalSupply <= 0)
+            // Обчислити новий обмінний курс
+            var totalTokens = await _context.UserBalances.Where(ub => ub.Token.Symbol == tokenSymbol).SumAsync(ub => ub.Balance);
+            var totalDollars = await _context.UserBalances.SumAsync(ub => ub.Balance * ub.Token.ExchangeRateToDollars);
+
+            if (totalTokens > 0 && totalDollars > 0)
             {
-                throw new ArgumentException("Невірні аргументи для створення токена.");
+                return totalDollars / totalTokens;
+            }
+            else
+            {
+                // Повернути початкове значення якщо немає токенів або доларів
+                return 0;
+            }
+        }
+
+        public async Task<Token?> CreateTokenAsync(string name, string symbol, decimal totalSupply, decimal exchangeRateToDollars)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(symbol) || totalSupply <= 0 || exchangeRateToDollars <= 0)
+            {
+                throw new ArgumentException("Invalid arguments for creating token.");
             }
 
             if (await _context.Tokens.AnyAsync(t => t.Symbol == symbol))
             {
-                throw new ArgumentException("Токен з таким символом вже існує.");
+                throw new ArgumentException("Token with the same symbol already exists.");
             }
 
             var tokenEntity = new Token
             {
                 Name = name,
                 Symbol = symbol,
-                TotalSupply = totalSupply
+                TotalSupply = totalSupply,
+                ExchangeRateToDollars = exchangeRateToDollars
             };
 
             _context.Tokens.Add(tokenEntity);
@@ -148,6 +166,7 @@ namespace WebApplication1.Services
 
             return tokenEntity;
         }
+
 
         public async Task<bool> AddTokenBalanceAsync(string userId, string tokenSymbol, decimal amount)
         {
@@ -191,7 +210,9 @@ namespace WebApplication1.Services
 
             return true; // Return true to indicate successful addition of token balance
         }
-        public async Task<Token> UpdateTokenAsync(int tokenId, string name, string symbol, decimal totalSupply)
+
+
+        public async Task<Token> UpdateTokenAsync(int tokenId, string name, string symbol, decimal totalSupply, decimal exchangeRateToDollars)
         {
             var token = await _context.Tokens.FindAsync(tokenId);
 
@@ -203,11 +224,27 @@ namespace WebApplication1.Services
             token.Name = name;
             token.Symbol = symbol;
             token.TotalSupply = totalSupply;
+            token.ExchangeRateToDollars = exchangeRateToDollars;
 
             _context.Tokens.Update(token);
             await _context.SaveChangesAsync();
 
             return token;
+        }
+
+        public async Task<bool> DeleteTokenAsync(int tokenId)
+        {
+            var token = await _context.Tokens.FindAsync(tokenId);
+
+            if (token == null)
+            {
+                throw new ArgumentException("Token not found.");
+            }
+
+            _context.Tokens.Remove(token);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
