@@ -130,6 +130,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             </div>
             <a href="#" class="nftartistinfo_button btn hvr-shrink">Place Bid</a>
           </div>
+
+          <!-- BUY SECTION -->
+          <div class="nftbuy_window">
+            <p class="base-sans">Price:</p>
+            <div class="nftbuy_cont">
+              <div class="nftbuy_item">
+              <h3 class="nftartistinfo_hourtime mono">${allPrice}</h3>
+              </div>
+            </div>
+            <a href="#" class="nftartistinfo_button btn hvr-shrink">Buy NFT</a>
+          </div>
+
           <div class="nftartistinfo_artistcard">
             <p class="base-mono">Created By</p>
             <div class="nftartistinfo_card">

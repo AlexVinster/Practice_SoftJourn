@@ -1,9 +1,4 @@
-﻿using WebApplication1.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebApplication1.Data;
+﻿using WebApplication1.Data;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Interfaces;
 using WebApplication1.Data.Entities;
@@ -36,7 +31,7 @@ namespace WebApplication1.Services
                     Name = tokenEntity.Name,
                     Symbol = tokenEntity.Symbol,
                     TotalSupply = tokenEntity.TotalSupply,
-                    ExchangeRateToDollars = tokenEntity.ExchangeRateToDollars, // Додано обмінний курс
+                    ExchangeRateToDollars = tokenEntity.ExchangeRateToDollars,
                     Transactions = tokenEntity.Transactions
                 };
                 return token;
@@ -136,7 +131,6 @@ namespace WebApplication1.Services
             }
             else
             {
-                // Повернути початкове значення якщо немає токенів або доларів
                 return 0;
             }
         }

@@ -1282,7 +1282,7 @@ body {
   gap: 10px;
 }
 
-.nftartistinfo_timer {
+.nftartistinfo_timer, .nftbuy_window {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1294,19 +1294,25 @@ body {
   height: 234px;
 }
 
-.nftartistinfo_timer_countdown {
+.pricing_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nftartistinfo_timer_countdown, .nftbuy_cont {
   display: flex;
   flex-direction: row;
   gap: 10px;
   justify-content: space-evenly;
 }
 
-.nftartistinfo_timer_item {
+.nftartistinfo_timer_item, .nftbuy_item {
   display: flex;
   flex-direction: column;
 }
 
-.nftartistinfo_button {
+.nftartistinfo_button, .nftbuy_button {
   margin-top: 20px;
   background-color: #a259ff;
 }
@@ -2087,7 +2093,7 @@ body {
     grid-area: headline;
   }
 
-  .nftartistinfo_timer {
+  .nftartistinfo_timer, .nftbuy_window {
     grid-area: timer;
   }
 
@@ -2647,6 +2653,10 @@ body {
 
   .nftartistinfo_timer {
     grid-area: timer;
+  }
+
+  .nftbuy_window {
+    margin-top: 250px;
   }
 
   .nftartistinfo_artistcard {
