@@ -150,13 +150,11 @@ public class NFTController : ControllerBase
     }
 
     [HttpPost("{artworkId}/forsale")]
-    public async Task<IActionResult> PutArtworkForSale(int artworkId, [FromQuery] decimal price)
+    public async Task<IActionResult> PutArtworkForSale(int artworkId, [FromQuery] decimal price, [FromQuery] string ownerId)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
         try
         {
-            await _nftService.SetArtworkForSale(artworkId, userId, price);
+            await _nftService.SetArtworkForSale(artworkId, ownerId, price);
             return Ok("Artwork is now for sale.");
         }
         catch (Exception ex)

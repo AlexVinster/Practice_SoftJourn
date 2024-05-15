@@ -5,7 +5,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const placeholderElement = document.getElementById('dynamicBackground');
 
+  let buyerId = null;
+
   try {
+    const currentUser = await getCurrentUserInfo();
+    if (currentUser) {
+      const buyerId = currentUser.userId;
+    }
+    else {
+      buyerId = null;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const nftidParam = urlParams.get('id');
     const artistIdParam = urlParams.get('artist');
@@ -43,6 +53,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         id: allId,
         imageUrl: allImageUrl,
         price: allPrice,
+        forSale: allForSale,
+        tokenSymbol: allTokenSymbol,
         name: allName,
         artistId: allArtistId,
       } = allNFTsData[posNFT];
@@ -61,7 +73,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         imageUrl: nftImageUrl,
         description: nftDescription,
         artistId: nftArtistId,
-        price: nftPrice
+        price: nftPrice,
+        forSale: forSale,
+        tokenSymbol: tokenSymbol,
       } = nftData;
 
       placeholderElement.style.backgroundImage = `url(https://localhost:7018${nftData.imageUrl})`;
@@ -70,6 +84,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         imageUrl: artistImage,
         name: artistName
       } = artistData;
+
+      const priceToShow = forSale ? `${nftPrice} ${tokenSymbol}` : "NotForSale";
+      const allPriceToShow = allForSale ? `${allPrice} ${allTokenSymbol}` : "Not For Sale";
 
       divItem.innerHTML = `
         <div class="atropos my-atropos-${i}">
@@ -87,11 +104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <div data-atropos-offset="5" class="more_addinfo">
                       <div class="more_addinfo_price">
                         <p style="color: #858584" class="caption-mono">Price</p>
-                        <p style="color: #fff" class="base-mono">${allPrice} ETH</p>
-                      </div>
-                      <div class="more_addinfo_bid">
-                        <p style="color: #858584" class="caption-mono grey">Highest Bid</p>
-                        <p style="color: #fff" class="base-mono">${nftPrice} ETH</p>
+                        <p style="color: #fff" class="base-mono">${allPriceToShow}</p>
                       </div>
                     </div>
                   </div>
@@ -110,38 +123,44 @@ document.addEventListener("DOMContentLoaded", async function () {
               Minted on Sep 30, 2022
             </p>
           </article>
-          <div class="nftartistinfo_timer">
-            <p class="caption-mono">Auction ends in:</p>
-            <div class="nftartistinfo_timer_countdown">
-              <div class="nftartistinfo_timer_item">
-                <h3 class="nftartistinfo_hourtime mono">59</h3>
-                <p class="nftartistinfo_hourtext caption-mono">Hours</p>
+          ${
+        // forSale ?
+        // якщо forSale === true, відобразити sale
+        `
+            <div class="nftbuy_window">
+              <p class="base-sans">Price:</p>
+              <div class="nftbuy_cont">
+                <div class="nftbuy_item">
+                  <h3 class="nftartistinfo_hourtime mono">${priceToShow}</h3>
+                </div>
               </div>
-              <h3 class="nftartistinfo_timer_divider mono">:</h3>
-              <div class="nftartistinfo_timer_item">
-                <h3 class="nftartistinfo_mintime mono">59</h3>
-                <p class="nftartistinfo_mintext caption-mono">Minutes</p>
-              </div>
-              <h3 class="nftartistinfo_timer_divider mono">:</h3>
-              <div class="nftartistinfo_timer_item">
-                <h3 class="nftartistinfo_sectime mono">59</h3>
-                <p class="nftartistinfo_sectext caption-mono">Seconds</p>
-              </div>
+              <button id="buyButton" class="nftartistinfo_button btn hvr-shrink">Buy NFT</button>
             </div>
-            <a href="#" class="nftartistinfo_button btn hvr-shrink">Place Bid</a>
-          </div>
-
-          <!-- BUY SECTION -->
-          <div class="nftbuy_window">
-            <p class="base-sans">Price:</p>
-            <div class="nftbuy_cont">
-              <div class="nftbuy_item">
-              <h3 class="nftartistinfo_hourtime mono">${allPrice}</h3>
-              </div>
-            </div>
-            <a href="#" class="nftartistinfo_button btn hvr-shrink">Buy NFT</a>
-          </div>
-
+            ` // :
+        // якщо forSale === false, відобразити таймер
+        // `
+        // <div class="nftartistinfo_timer">
+        //   <p class="caption-mono">Auction ends in:</p>
+        //   <div class="nftartistinfo_timer_countdown">
+        //     <div class="nftartistinfo_timer_item">
+        //       <h3 class="nftartistinfo_hourtime mono">59</h3>
+        //       <p class="nftartistinfo_hourtext caption-mono">Hours</p>
+        //     </div>
+        //     <h3 class="nftartistinfo_timer_divider mono">:</h3>
+        //     <div class="nftartistinfo_timer_item">
+        //       <h3 class="nftartistinfo_mintime mono">59</h3>
+        //       <p class="nftartistinfo_mintext caption-mono">Minutes</p>
+        //     </div>
+        //     <h3 class="nftartistinfo_timer_divider mono">:</h3>
+        //     <div class="nftartistinfo_timer_item">
+        //       <h3 class="nftartistinfo_sectime mono">59</h3>
+        //       <p class="nftartistinfo_sectext caption-mono">Seconds</p>
+        //     </div>
+        //   </div>
+        //   <a href="#" class="nftartistinfo_button btn hvr-shrink">Place Bid</a>
+        // </div>
+        // `
+        }
           <div class="nftartistinfo_artistcard">
             <p class="base-mono">Created By</p>
             <div class="nftartistinfo_card">
@@ -180,6 +199,30 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       container.appendChild(divItem);
       atroposFunc(i);
+
+      const buyButton = document.getElementById('buyButton');
+      if ((currentUser) && (forSale)) {
+        buyButton.addEventListener('click', async () => {
+          try {
+            const response = await fetch(`https://localhost:7018/api/NFT/buy/${nftId}?paymentTokenSymbol=${tokenSymbol}&buyerId=${buyerId}`, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${getToken()}`,
+              }
+            });
+            const responseBody = await response.text();
+            console.log('Response body:', responseBody);
+
+          } catch (error) {
+            console.error('Error buying NFT:', error);
+          }
+        });
+      }
+      else {
+        console.log(currentUser);
+        buyButton.disabled = true;
+        buyButton.classList.add('disabled');
+      }
     }
   } catch (error) {
     console.log('Error fetching NFTs:', error);

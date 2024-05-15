@@ -139,4 +139,37 @@ public class UsersController : ControllerBase
         }
     }
 
+    [Authorize]
+    [HttpPut("changeEmail")]
+    public async Task<IActionResult> ChangeEmail(string userId, string newEmail)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new { Status = "Error", Message = "User not found" });
+
+            // Check if the new email is already taken by another user
+            var existingUserWithEmail = await _userManager.FindByEmailAsync(newEmail);
+            if (existingUserWithEmail != null && existingUserWithEmail.Id != user.Id)
+                return BadRequest(new { Status = "Error", Message = "Email is already taken by another user" });
+
+            // Change email
+            user.Email = newEmail;
+            user.NormalizedEmail = newEmail.ToUpper();
+
+            // Update user in the database
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+                return Ok(new { Status = "Success", Message = "Email updated successfully" });
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Failed to update email", Errors = result.Errors });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
+
 }

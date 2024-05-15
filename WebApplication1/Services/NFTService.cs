@@ -46,7 +46,9 @@ namespace WebApplication1.Services
                 existingArtwork.Name = updatedArtwork.Name;
                 existingArtwork.Description = updatedArtwork.Description;
                 existingArtwork.Price = updatedArtwork.Price;
+                existingArtwork.TokenSymbol = updatedArtwork.TokenSymbol;
                 existingArtwork.ForSale = updatedArtwork.ForSale;
+/*                existingArtwork.ForAuction = updatedArtwork.ForAuction;*/
                 existingArtwork.IsSold = updatedArtwork.IsSold;
                 existingArtwork.OwnerId = updatedArtwork.OwnerId;
                 /*                existingArtwork.Artist = updatedArtwork.Artist;

@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         imageUrl: nftImageUrl,
         price,
         name: nftNaming,
+        forSale: forSale,
+        tokenSymbol: tokenSymbol,
         artistId: nftArtistId,
       } = nftsData[posNFT];
       nftsData.splice(posNFT, 1);
@@ -45,6 +47,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         imageUrl: artistImage,
         name: artistName,
       } = artistData;
+
+      const priceToShow = forSale ? `${price} ${tokenSymbol}` : "NotForSale";
 
       divItem.innerHTML = `
         <div class="atropos my-atropos-${i}">
@@ -62,11 +66,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <div data-atropos-offset="5" class="more_addinfo">
                       <div class="more_addinfo_price">
                         <p style="color: #858584" class="caption-mono">Price</p>
-                        <p style="color: #fff" class="base-mono">${price} ETH</p>
-                      </div>
-                      <div class="more_addinfo_bid">
-                        <p style="color: #858584" class="caption-mono grey">Highest Bid</p>
-                        <p style="color: #fff" class="base-mono">0.33 wETH</p>
+                        <p style="color: #fff" class="base-mono">${priceToShow}</p>
                       </div>
                     </div>
                   </div>
