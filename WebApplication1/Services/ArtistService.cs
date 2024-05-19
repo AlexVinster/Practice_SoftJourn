@@ -31,7 +31,18 @@
 
         public async Task AddArtist(ArtistInformation artist)
         {
+            var existingArtist = await _context.Artists.FirstOrDefaultAsync(a => a.UserId == artist.UserId);
+            if (existingArtist != null)
+            {
+                throw new InvalidOperationException("User is already an artist");
+            }
+
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == artist.UserId);
+
             _context.Artists.Add(artist);
+            await _context.SaveChangesAsync();
+
+            currentUser.ArtistInformationId = artist.Id;
             await _context.SaveChangesAsync();
         }
 

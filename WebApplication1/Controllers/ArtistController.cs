@@ -46,7 +46,6 @@ public class ArtistController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<int>> AddArtist([FromForm] ArtistInformationDto artistDto)
     {
         if (artistDto.Image == null)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
@@ -11,9 +12,11 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515142048_Key")]
+    partial class Key
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +166,6 @@ namespace WebApplication1.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ArtistInformationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -215,10 +215,6 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistInformationId")
-                        .IsUnique()
-                        .HasFilter("[ArtistInformationId] IS NOT NULL");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -254,10 +250,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -503,16 +495,6 @@ namespace WebApplication1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication1.Auth.ApplicationUser", b =>
-                {
-                    b.HasOne("WebApplication1.Data.Entities.ArtistInformation", "ArtistInformation")
-                        .WithOne("User")
-                        .HasForeignKey("WebApplication1.Auth.ApplicationUser", "ArtistInformationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ArtistInformation");
-                });
-
             modelBuilder.Entity("WebApplication1.Data.Entities.Artwork", b =>
                 {
                     b.HasOne("WebApplication1.Auth.ApplicationUser", null)
@@ -605,9 +587,6 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Data.Entities.ArtistInformation", b =>
                 {
                     b.Navigation("Artworks");
-
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebApplication1.Data.Entities.Artwork", b =>

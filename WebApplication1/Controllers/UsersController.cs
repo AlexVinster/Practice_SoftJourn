@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
             if (user == null)
                 return NotFound(new { Status = "Error", Message = "User not found" });
 
-            return Ok(new { userId = user.Id, username = user.UserName, email = user.Email });
+            return Ok(new { userId = user.Id, username = user.UserName, email = user.Email, artistId = user.ArtistInformationId });
         }
         catch (Exception ex)
         {

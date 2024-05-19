@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WebApplication1.Auth;
 using WebApplication1.Data.Entities;
 
 namespace WebApplication1.Data.Configurations
@@ -28,11 +29,17 @@ namespace WebApplication1.Data.Configurations
             builder.Property(a => a.Links)
                 .IsRequired();
 
-            builder.HasMany(d => d.Artworks)
-                .WithOne(d => d.Artist)
-                .HasForeignKey(d => d.ArtistId)
+            builder.HasMany(a => a.Artworks)
+                .WithOne(a => a.Artist)
+                .HasForeignKey(a => a.ArtistId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasPrincipalKey(d => d.Id);
+                .HasPrincipalKey(a => a.Id);
+
+            builder.HasOne(a => a.User)
+                .WithOne(u => u.ArtistInformation)
+                .HasForeignKey<ApplicationUser>(u => u.ArtistInformationId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasPrincipalKey<ArtistInformation>(a => a.Id);
 
         }
     }

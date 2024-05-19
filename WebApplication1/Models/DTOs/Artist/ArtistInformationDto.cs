@@ -9,5 +9,6 @@
         public DateTime? DateRegistered { get; set; }
         public string WalletAddress { get; set; }
         public string Links { get; set; }
+        public string UserId { get; set; }
     }
 }

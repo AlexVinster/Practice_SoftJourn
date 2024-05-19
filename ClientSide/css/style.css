@@ -983,7 +983,7 @@ body {
   gap: 30px;
 }
 
-.createacc_img {
+.createacc_img, .loginacc_img {
   background-image: url(../images/createaccimg.webp);
   background-repeat: no-repeat;
   background-position: center;
@@ -993,6 +993,10 @@ body {
   z-index: 0;
   display: flex;
   align-self: stretch;
+}
+
+.loginacc_img {
+  background-image: url(../images/loginBack.jpg);
 }
 
 .createacc_main {
@@ -1995,7 +1999,7 @@ body {
     align-items: flex-start;
   }
 
-  .createacc_img {
+  .createacc_img, .loginacc_img {
     width: 100%;
   }
 
@@ -2460,7 +2464,7 @@ body {
     padding-bottom: 0;
   }
 
-  .createacc_img {
+  .createacc_img, .loginacc_img {
     flex: 60%;
   }
 
