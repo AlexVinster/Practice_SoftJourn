@@ -17,7 +17,6 @@ function hideError() {
     }
 }
 
-
 function showInfoMessage(message) {
     try {
         const infoMessageDiv = document.getElementById('info-message');
@@ -246,6 +245,7 @@ async function ShowArtistInfo() {
             artistImage.innerHTML = `
                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image" class="d-block ui-w-80" id="artistImagePreview">`;
             showInfoMessage(currentArtistData.message || 'You are not artist');
+            throw new Error('Failed to fetch artist info');
         }
 
         const currentArtistName = document.getElementById("artistName");
@@ -264,7 +264,7 @@ async function ShowArtistInfo() {
         currentWallet.value = currentArtistData.walletAddress;
     } catch (error) {
         console.log('Error fetching current artist', error);
-        showError(error.message);
+        // showError(error.message);
     }
 }
 
