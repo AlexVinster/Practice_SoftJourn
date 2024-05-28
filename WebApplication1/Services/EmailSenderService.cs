@@ -11,7 +11,7 @@ namespace WebApplication1.Services
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var mail = "aliexpre20000@gmail.com";
-            var mailPassword = "afax hkhu mtxa gvao";
+            var mailPassword = "tpcu dmws hmso askl";
 
             var client = new SmtpClient("smtp.gmail.com", 587)
             {

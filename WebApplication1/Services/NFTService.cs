@@ -104,7 +104,7 @@ namespace WebApplication1.Services
             var userBalance = await _context.UserBalances.FirstOrDefaultAsync(ub => ub.UserId == buyerId && ub.Token.Symbol == paymentTokenSymbol);
 
             // Розрахунок вартості NFT в токенах на основі ціни в доларах та обмінного курсу токена
-            decimal priceInTokens = artwork.Price / paymentToken.ExchangeRateToDollars;
+            decimal priceInTokens = artwork.Price; // / paymentToken.ExchangeRateToDollars;
 
             if (userBalance == null || userBalance.Balance < priceInTokens)
             {

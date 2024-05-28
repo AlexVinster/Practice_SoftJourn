@@ -80,6 +80,11 @@
                     _context.Artworks.Remove(artwork);
                 }
 
+                if (artistToDelete.User != null)
+                {
+                    artistToDelete.User.ArtistInformationId = null;
+                }
+
                 _context.Artists.Remove(artistToDelete);
                 await _context.SaveChangesAsync();
             }

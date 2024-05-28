@@ -221,8 +221,8 @@ async function addArtist() {
 
         if (!response.ok) {
             const responseData = await response.json();
-            showError(responseData.message || 'Failed to add artist');
-            throw new Error(responseData.message || 'Failed to add artist');
+            // showError(responseData.message || 'Failed to add artist (all fields are required)');
+            throw new Error(responseData.message || 'Failed to add artist (all fields are required)');
         }
 
         console.log('Artist added successfully.');

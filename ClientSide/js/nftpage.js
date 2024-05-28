@@ -9,12 +9,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const currentUser = await getCurrentUserInfo();
-    if (currentUser) {
-      const buyerId = currentUser.userId;
-    }
-    else {
-      buyerId = null;
-    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const nftidParam = urlParams.get('id');
@@ -200,31 +194,58 @@ document.addEventListener("DOMContentLoaded", async function () {
       container.appendChild(divItem);
       atroposFunc(i);
 
-      const buyButton = document.getElementById('buyButton');
-      if ((currentUser) && (forSale)) {
-        buyButton.addEventListener('click', async () => {
-          try {
-            const response = await fetch(`https://localhost:7018/api/NFT/buy/${nftId}?paymentTokenSymbol=${tokenSymbol}&buyerId=${buyerId}`, {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${getToken()}`,
-              }
-            });
-            const responseBody = await response.text();
-            console.log('Response body:', responseBody);
+      const modal = document.getElementById("modal-buy");
 
-          } catch (error) {
-            console.error('Error buying NFT:', error);
+      const buyButton = document.getElementById("buyButton");
+
+      buyButton.addEventListener("click", async () => {
+        try {
+          const currentUser = await getCurrentUserInfo();
+
+          const buyerId = currentUser.userId;
+          const response = await fetch(`https://localhost:7018/api/NFT/buy/${nftId}?paymentTokenSymbol=${tokenSymbol}&buyerId=${buyerId}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${getToken()}`,
+            }
+          });
+
+          if (response.ok) {
+            displaySuccessMessage("NFT purchased successfully!");
+          } else {
+            displayErrorMessage("Error purchasing NFT: " + response.statusText);
           }
-        });
+        } catch (error) {
+          displayErrorMessage("Error purchasing NFT: " + error.message);
+        }
+      });
+      
+      const closeModal = () => {
+        modal.style.display = "none";
+      };
+      
+      document.querySelector(".close").addEventListener("click", closeModal);
+      document.querySelector(".modal_buy_button").addEventListener("click", closeModal);
+      
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      });
+      
+      document.querySelector(".close").addEventListener("click", closeModal);
+      function displayErrorMessage(message) {
+        document.getElementById("modal-message").textContent = message;
+        modal.style.display = "block";
       }
-      else {
-        console.log(currentUser);
-        buyButton.disabled = true;
-        buyButton.classList.add('disabled');
+
+      function displaySuccessMessage(message) {
+        document.getElementById("modal-message").textContent = message;
+        modal.style.display = "block";
       }
     }
   } catch (error) {
     console.log('Error fetching NFTs:', error);
   }
+
 });

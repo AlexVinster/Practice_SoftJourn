@@ -38,7 +38,7 @@ namespace WebApplication1.Data.Configurations
             builder.HasOne(a => a.User)
                 .WithOne(u => u.ArtistInformation)
                 .HasForeignKey<ApplicationUser>(u => u.ArtistInformationId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasPrincipalKey<ArtistInformation>(a => a.Id);
 
         }

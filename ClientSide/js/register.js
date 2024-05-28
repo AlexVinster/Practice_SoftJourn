@@ -21,7 +21,7 @@ function isUsernameAvailable(username) {
   return fetch(`https://localhost:7018/api/Users/checkUsername?username=${encodeURIComponent(username)}`)
     .then(response => {
       if (!response.ok) {
-        throw new Error(`Помилка: ${response.status}`);
+        throw new Error(`Error: ${response.status}`);
       }
       return response.json();
     })
@@ -32,7 +32,7 @@ function isEmailAvailable(email) {
   return fetch(`https://localhost:7018/api/Users/checkEmail?email=${encodeURIComponent(email)}`)
     .then(response => {
       if (!response.ok) {
-        throw new Error(`Помилка: ${response.status}`);
+        throw new Error(`Error: ${response.status}`);
       }
       return response.json();
     })
@@ -49,45 +49,64 @@ function registerUser() {
   const password2 = document.getElementById('password2').value;
   let password;
 
-  // Перевірка на валідність email
-  if (!isValidEmail(email)) {
-    alert("Будь ласка, введіть валідну електронну пошту.");
+  // Check for empty fields
+  if (!username || !email || !password1 || !password2) {
+    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.classList.add('visible');
+    errorMessageElement.textContent = 'Please fill in all fields.';
     return;
   }
 
-  // Перевірка на відповідність паролів
+  // Check for valid email
+  if (!isValidEmail(email)) {
+    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.classList.add('visible');
+    errorMessageElement.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  // Check for matching passwords
   if (password1 !== password2) {
-    alert("Паролі не співпадають. Будь ласка, перевірте введені дані.");
+    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.classList.add('visible');
+    errorMessageElement.textContent = 'Passwords do not match. Please try again.';
     return;
   } else {
     password = password1;
   }
 
-  // Перевірка наявності пробілів у полі username
+  // Check for spaces in username
   if (username.includes(' ')) {
-    alert("Ім'я користувача не повинно містити пробілів.");
+    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.classList.add('visible');
+    errorMessageElement.textContent = 'Username cannot contain spaces.';
     return;
   }
 
-
-  // Перевірка доступності username
+  // Check for available username
   isUsernameAvailable(username)
     .then(usernameAvailable => {
       if (!usernameAvailable) {
-        alert("Цей username вже використовується. Будь ласка, виберіть інший.");
+        const errorMessageElement = document.getElementById('error-message');
+        errorMessageElement.classList.add('visible');
+        errorMessageElement.textContent = 'Username is already taken. Please choose another.';
       } else {
-        // Перевірка доступності email
+        // Check for available email
         isEmailAvailable(email)
           .then(emailAvailable => {
             if (!emailAvailable) {
-              alert("Цей Email вже використовується. Будь ласка, виберіть інший.");
+              const errorMessageElement = document.getElementById('error-message');
+              errorMessageElement.classList.add('visible');
+              errorMessageElement.textContent = 'Email is already taken. Please choose another.';
             } else {
-              // Перевірка валідності пароля
+              // Check for valid password
               if (!isValidPassword(password)) {
-                alert("Будь ласка, введіть пароль, який відповідає вимогам:\nМістить хоча б одну цифру\nМістить велику літеру\nМістить спеціальний символ");
+                const errorMessageElement = document.getElementById('error-message');
+                errorMessageElement.classList.add('visible');
+                errorMessageElement.textContent = 'Please enter a password that meets the requirements:\nContains at least one digit\nContains at least one uppercase letter\nContains at least one special character';
                 return;
               }
-              // Відправка запиту на реєстрацію
+              // Send registration request
               fetch('https://localhost:7018/api/Authenticate/register', {
                 method: 'POST',
                 headers: {
@@ -101,38 +120,34 @@ function registerUser() {
               })
                 .then(response => {
                   if (!response.ok) {
-                    throw new Error(`Помилка: ${response.status}`);
+                    throw new Error(`Error: ${response.status}`);
                   }
                   return response.json();
                 })
                 .then(data => {
-                  // Обробка відповіді від сервера
+                  // Process server response
                   console.log(data);
                   if (data.status === 'Success') {
                     window.location.href = './index.html';
+                  } else {
+                    const errorMessageElement = document.getElementById('error-message');
+                    errorMessageElement.classList.add('visible');
+                    errorMessageElement.textContent = 'Registration failed. Please try again.';
                   }
                 })
                 .catch(error => {
-                  console.error('Помилка при відправці запиту:', error.message);
+                  console.log(error);
+                  const errorMessageElement = document.getElementById('error-message');
+                  errorMessageElement.classList.add('visible');
+                  errorMessageElement.textContent = 'Registration failed. Please try again.';
                 });
             }
-          })
-          .catch(error => {
-            console.error('Помилка при перевірці доступності email:', error.message);
           });
       }
-    })
-    .catch(error => {
-      console.error('Помилка при перевірці доступності username:', error.message);
     });
-  }
+}
 
-/* 
-
-    THERE IS SOME UPDATE OF CLIENT AND SERVER FOR FUTURE
-    USE LIKE 
-     if (error.message === 'User already exists!') {
-                alert('User already exists! Please choose a different username.');
-    FOR IDENTITY USERNAME INSTEAD isUsernameAvailable
-
-*/
+document.getElementById('registrationForm').addEventListener('submit', event => {
+  event.preventDefault();
+  registerUser();
+});

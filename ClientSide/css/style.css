@@ -948,7 +948,7 @@ body {
   padding: 30px 30px 30px;
 }
 
-.modal p {
+.modal p, span {
   padding-bottom: 30px;
 }
 
@@ -968,9 +968,59 @@ body {
 
 .subscribe_button,
 .modal_button,
+.modal_buy_button,
 .footer_button {
   background-color: #a259ff;
   height: 46px;
+}
+
+/* other modal */
+
+.modal_buy_button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+
+}
+
+
+.modal-buy {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-buy-content {
+  background-color: #f9f9f9;
+  margin: 15% auto;
+  padding: 20px;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  width: 30%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .createacc {
@@ -1754,6 +1804,42 @@ body {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+
+/* Error or info message */
+
+#error-message {
+  display: none;
+  color: #D8000C;
+  background-color: #FFBABA;
+  border: 1px solid #D8000C;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#error-message.visible {
+  display: block;
+}
+
+#info-message {
+  display: none;
+  color: #0056b3;
+  background-color: #e7f3fe;
+  border: 1px solid #0056b3;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#info-message.visible {
+  display: block;
 }
 
 @media (min-width: 100px) {
