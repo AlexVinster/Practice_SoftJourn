@@ -968,6 +968,7 @@ body {
 
 .subscribe_button,
 .modal_button,
+.add-nft_button,
 .modal_buy_button,
 .footer_button {
   background-color: #a259ff;
@@ -1314,14 +1315,17 @@ body {
 .placeholderimg {
   margin-top: 100px;
   background-image: url(../images/nftpage/nft-topslider.webp);
+  border-radius: 30px;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
-  min-height: 320px;
+  background-size: contain;
+  min-height: 300px;
+  min-width: 300px;
   overflow: hidden;
   z-index: 0;
   display: flex;
-  align-self: stretch;
+  justify-content: center;
+  align-items: center;
 }
 
 .nftartistinfo_inner {
@@ -1841,6 +1845,79 @@ body {
 #info-message.visible {
   display: block;
 }
+
+
+.add-nft {
+  margin-top: 120px;
+  margin-bottom: 70px;
+}
+
+.add-nft_inner {
+  max-width: 600px;
+  margin: auto;
+}
+
+.add-nft_form {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.add-nft_form label {
+  margin-top: 10px;
+}
+
+.add-nft_button {
+  margin-top: 20px;
+}
+
+.add-nft_form input,
+.add-nft_form textarea,
+.add-nft_form select {
+  padding: 10px;
+  margin-top: 5px;
+}
+
+input[type="file"] {
+  display: none; /* Приховуємо стандартну кнопку вибору файлу */
+}
+
+.custom-file-upload {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #a259ff;
+  border-color: #a259ff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: #9041f8;
+}
+
+#croppedResult {
+  margin-top: 20px;
+}
+
+.cropper-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cropper-view-box {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  outline: 1px solid #fff; /* Color of the crop box frame */
+  background-color: rgba(0, 0, 0, 0.5); /* Background color of the crop box frame */
+  opacity: 0.5; /* Opacity of the crop box frame */
+}
+
 
 @media (min-width: 100px) {
   .container {

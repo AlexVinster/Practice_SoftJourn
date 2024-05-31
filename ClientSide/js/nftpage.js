@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       placeholderElement.style.backgroundImage = `url(https://localhost:7018${nftData.imageUrl})`;
 
+      
       const {
         imageUrl: artistImage,
         name: artistName
