@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         event.preventDefault();
         userId = currentUser.userId;
         await addNFT(userId, artistId);
+        alert("NFT added succesfull");
     });
 
     async function getCurrentUserInfo() {

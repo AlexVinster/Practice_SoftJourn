@@ -141,6 +141,8 @@ public class NFTController : ControllerBase
         try
         {
             await _nftService.BuyArtwork(id, buyerId, paymentTokenSymbol);
+            await _nftService.SetArtworkNotForSale(id);
+
             return Ok("Artwork purchased successfully.");
         }
         catch (Exception ex)
@@ -179,5 +181,17 @@ public class NFTController : ControllerBase
         }
     }
 
+    [HttpGet("filter")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<ArtworkDtoResponse>>> GetFilteredArtworks(
+        [FromQuery] decimal? minPrice,
+        [FromQuery] decimal? maxPrice,
+        [FromQuery] string? artistName,
+        [FromQuery] bool? forSale)
+    {
+        var artworks = await _nftService.GetFilteredArtworks(minPrice, maxPrice, artistName, forSale);
+        var artworkDtoResponse = _mapper.Map<IEnumerable<ArtworkDtoResponse>>(artworks);
+        return Ok(artworkDtoResponse);
+    }
 
 }

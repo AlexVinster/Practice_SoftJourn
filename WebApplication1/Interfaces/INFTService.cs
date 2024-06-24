@@ -7,6 +7,7 @@ namespace WebApplication1.Interfaces
     public interface INFTService
     {
         Task<IEnumerable<Artwork>> GetAllArtworks();
+        Task<IEnumerable<Artwork>> GetFilteredArtworks(decimal? minPrice, decimal? maxPrice, string? artistName, bool? forSale);
         Task<Artwork> GetArtworkById(int artworkId);
         Task AddArtwork(Artwork artwork);
         Task UpdateArtwork(int artworkId, Artwork updatedArtwork);

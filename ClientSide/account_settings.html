@@ -229,6 +229,15 @@
         .btn-danger {
             border-color: black;
         }
+
+        .balance-display {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            padding: 10px 20px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -309,8 +318,8 @@
                             href="#account-general">General</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-change-password">Change password</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-social-links">Social links</a>
+                        <!-- <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-social-links">Social links</a> -->
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-artist"
                             id="account-artist_tab">Become artist</a>
                     </div>
@@ -327,10 +336,11 @@
                                 <div class="form-group">
                                     <label class="form-label">E-mail</label>
                                     <input type="text" class="form-control mb-1" value="" id="emailInput">
-                                    <div class="alert alert-warning mt-3">
+                                    <!-- <div class="alert alert-warning mt-3">
                                         Your email is not confirmed. Please check your inbox.<br>
                                         <a href="javascript:void(0)">Resend confirmation</a>
-                                    </div>
+                                    </div> -->
+                                    <div class="alert alert-warning mt-3" id="user-page"></div>
                                 </div>
                             </div>
                         </div>
@@ -418,6 +428,9 @@
                                         <input type="text" class="form-control" value="" id="artistWallet"
                                             placeholder="Enter your wallet address">
                                     </div>
+                                    <div class="alert alert-warning mt-3"> 
+                                        <a href="http://127.0.0.1:5500/addnft.html">Add NFT (Only for Artists)</a>
+                                    </div>
                                 </div>
                                 <div id="info-message">Info message</div>
                                 <div id="error-message">Error message</div>
@@ -434,6 +447,9 @@
             <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
             <button type="button" class="btn btn-default" id="cancel-button">Cancel</button>
         </div>
+    </div>
+    <div class="balance-display">
+        Balance: <span id="userBalance"></span>
     </div>
     <!-- <div class="text-right mt-3 mb-4">
         <button type="button" class="btn btn-primary">Save changes</button>&nbsp;

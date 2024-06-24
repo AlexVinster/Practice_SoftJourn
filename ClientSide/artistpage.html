@@ -92,33 +92,25 @@
 
       <section class="tabbar">
         <div class="tabbar_inner">
-          <div
-            style="border-bottom: 2px solid #858584"
-            class="tabbar_inner_item">
+          <div id="created-tab" class="tabbar_inner_item activetab" onclick="switchTab('created')">
             <h5 class="sans">Created</h5>
-            <p style="background: #858584; color: #fff" class="caption-mono">
-              302
-            </p>
           </div>
-          <div class="tabbar_inner_item">
-            <h5 style="color: #858584" class="sans">Owned</h5>
-            <p class="caption-mono">67</p>
-          </div>
-          <div class="tabbar_inner_item">
-            <h5 style="color: #858584" class="sans">Collection</h5>
-            <p class="caption-mono">4</p>
-          </div>
+          <!-- <div id="owned-tab" class="tabbar_inner_item" onclick="switchTab('owned')">
+            <h5 class="sans">Owned</h5>
+          </div> -->
         </div>
       </section>
-
-      <section class="artist_cardrow container"></section>
+    
+      <section id="created-tab-content" class="artist_cardrow container"></section>
+      <section id="owned-tab-content" class="artist_cardrow container" style="display: none;"></section>
+    
       <div class="scrollup">
         <svg class="scrollup_svg" viewBox="-2 -2 52 52">
-          <path
-            class="scrollup_path"
-            d="M24,0 A24,24 0 0,1 48,24 A24,24 0 0,1 24,48 A24,24 0 0,1 0,24 A24,24 0 0,1 24,0 Z"/>
+          <path class="scrollup_path" d="M24,0 A24,24 0 0,1 48,24 A24,24 0 0,1 24,48 A24,24 0 0,1 0,24 A24,24 0 0,1 24,0 Z"/>
         </svg>
       </div>
+      
+
       <footer class="footer container">
         <div class="footer_inner">
           <section class="footer_socials">

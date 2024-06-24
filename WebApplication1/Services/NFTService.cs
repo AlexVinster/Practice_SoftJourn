@@ -157,5 +157,33 @@ namespace WebApplication1.Services
             await _context.SaveChangesAsync();
         }
 
+
+        public async Task<IEnumerable<Artwork>> GetFilteredArtworks(decimal? minPrice, decimal? maxPrice, string? artistName, bool? forSale)
+        {
+            var query = _context.Artworks.AsQueryable();
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(a => a.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(a => a.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(artistName))
+            {
+                query = query.Where(a => a.Artist.Name.Contains(artistName));
+            }
+
+            if (forSale.HasValue)
+            {
+                query = query.Where(a => a.ForSale == forSale.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
     }
 }

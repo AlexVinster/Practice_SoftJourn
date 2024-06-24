@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebApplication1.Auth;
+using WebApplication1.Interfaces;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -15,15 +17,18 @@ namespace WebApplication1.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly ITokenService _tokenService;
 
         public AuthenticateController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            ITokenService tokenService,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -94,6 +99,9 @@ namespace WebApplication1.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errors });
                 }
 
+                // Add 500 tokens to the user's balance
+                await _tokenService.AddTokenBalanceAsync(user.Id, "TNFT", 500);
+
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             }
             catch (Exception ex)
@@ -101,6 +109,7 @@ namespace WebApplication1.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
             }
         }
+
 
         [HttpPost]
         [Route("register-admin")]

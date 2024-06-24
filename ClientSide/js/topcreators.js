@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           <img src="https://localhost:7018${artistImage}" alt="" />
           <p>${artistName}</p>
         </div>
-        <p style="color: #00ac4f" class="table_change base-sans">+1.41%</p>
+        <!-- <p style="color: #00ac4f" class="table_change base-sans">+1.41%</p> -->
         <p class="table_sold base-sans">${artistNFTCount[artistData[i].id] || 0} NFTs</p>
-        <p class="table_price base-sans">12.4 ETH</p>
+        <!-- <p class="table_price base-sans">12.4 ETH</p> -->
       `;
       container.appendChild(divItem);
     }

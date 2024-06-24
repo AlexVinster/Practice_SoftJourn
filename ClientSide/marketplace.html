@@ -96,6 +96,31 @@
             placeholder="Search your favourite NFTs">
         </div>
       </section>
+
+      <!-- <section class="filters container">
+        <div class="filters_inner">
+          <form id="filtersForm">
+            <div>
+              <label for="minPrice">Min Price:</label>
+              <input type="number" id="minPrice" name="minPrice">
+            </div>
+            <div>
+              <label for="maxPrice">Max Price:</label>
+              <input type="number" id="maxPrice" name="maxPrice">
+            </div>
+            <div>
+              <label for="artistName">Artist Name:</label>
+              <input type="text" id="artistName" name="artistName">
+            </div>
+            <div>
+              <label for="forSale">Only available for sale:</label>
+              <input type="checkbox" id="forSale" name="forSale">
+            </div>
+            <button type="button" id="applyFiltersButton">Apply Filters</button>
+          </form>
+        </div>
+      </section> -->
+
       <section class="tabbar">
         <div class="tabbar_inner">
           <div
@@ -108,7 +133,7 @@
           </div>
         </div>
       </section>
-      <section class="marketplace_cardrow container"></section>
+      <section class="marketplace_cardrow container" id="marketplace_cardrow"></section>
       <div class="scrollup">
         <svg class="scrollup_svg" viewBox="-2 -2 52 52">
           <path
@@ -182,6 +207,7 @@
     </div>
     <script src="js/marketplace.js"></script>
     <script src="js/search.js"></script>
+    <!-- <script src="js/filters.js"></script> -->
     <script src="js/atropos.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/main.js"></script>

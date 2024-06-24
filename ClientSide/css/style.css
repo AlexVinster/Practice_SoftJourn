@@ -948,10 +948,10 @@ body {
   padding: 30px 30px 30px;
 }
 
-.modal p, span {
+.modal p {
   padding-bottom: 30px;
 }
-
+ /* span */
 /*end modal*/
 
 .footer p {
@@ -1272,6 +1272,7 @@ body {
   justify-content: center;
   height: 60px;
   width: 105px;
+  cursor: pointer;
 }
 
 .tabbar_inner_item p {
@@ -1314,7 +1315,7 @@ body {
 
 .placeholderimg {
   margin-top: 100px;
-  background-image: url(../images/nftpage/nft-topslider.webp);
+  /* background-image: url(../images/nftpage/nft-topslider.webp); */
   border-radius: 30px;
   background-repeat: no-repeat;
   background-position: center;
@@ -1326,6 +1327,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.nftImage {
+  border-radius: 30px;
 }
 
 .nftartistinfo_inner {
@@ -1381,6 +1386,7 @@ body {
 }
 
 .nftartistinfo_artistcard,
+.nftownerinfo_artistcard,
 .nftartistinfo_description,
 .nftartistinfo_details {
   display: flex;
@@ -1918,6 +1924,65 @@ input[type="file"] {
   opacity: 0.5; /* Opacity of the crop box frame */
 }
 
+/* filter section */
+
+.filters {
+  margin: 20px 0;
+  padding: 10px;
+  color: white;
+  background-color: #2b2b2b;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filters_inner {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filters_inner form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filters_inner form div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters_inner form label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.filters_inner form input[type="number"],
+.filters_inner form input[type="text"] {
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filters_inner form input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+.filters_inner form button {
+  padding: 10px 15px;
+  background-color: #a259ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filters_inner form button:hover {
+  background-color: #8b39f7;
+}
 
 @media (min-width: 100px) {
   .container {
@@ -2258,7 +2323,7 @@ input[type="file"] {
     column-gap: 30px;
     row-gap: 30px;
     justify-content: space-between;
-    grid-template-areas: "headline timer" "artist timer" "description timer" "details timer" "tags timer";
+    grid-template-areas: "headline timer" "artist timer" "owner timer" "description timer" "tags timer"; /* "details timer" after "owner timer" */
   }
 
   .nftartistinfo_headline {
@@ -2271,6 +2336,14 @@ input[type="file"] {
 
   .nftartistinfo_artistcard {
     grid-area: artist;
+  }
+
+  .nftownerinfo_artistcard {
+    grid-area: owner;
+  }
+
+  .nftownerinfo_artistcard {
+    grid-area: owner;
   }
 
   .nftartistinfo_description {
@@ -2709,7 +2782,7 @@ input[type="file"] {
   .artistinfo_inner {
     display: grid;
     grid-template-columns: 599px 351px;
-    grid-template-rows: 56px 74px 80px 77px;
+    /* grid-template-rows: 56px 74px 80px 77px; */
     row-gap: 30px;
     -moz-column-gap: 100px;
     column-gap: 100px;
@@ -2795,7 +2868,7 @@ input[type="file"] {
     column-gap: 150px;
     row-gap: 30px;
     justify-content: space-between;
-    grid-template-areas: "headline timer" "artist timer" "description timer" "details timer" "tags timer";
+    grid-template-areas: "headline timer" "artist timer" "owner timer" "description timer" "tags timer"; /* "details timer" */
   }
 
   .nftartistinfo_headline {
@@ -2808,6 +2881,7 @@ input[type="file"] {
 
   .nftartistinfo_headline p,
   .nftartistinfo_artistcard p,
+  .nftownerinfo_artistcard p,
   .nftartistinfo_description p,
   .nftartistinfo_details p,
   .nftartistinfo_tag p {

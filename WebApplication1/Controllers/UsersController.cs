@@ -30,6 +30,23 @@ public class UsersController : ControllerBase
         }
     }
 
+    [HttpGet("getUserById/{id}")]
+    public async Task<IActionResult> GetUserById(string id)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound(new { Status = "Error", Message = "User not found" });
+
+            return Ok( user );
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
+        }
+    }
+
     [Authorize]
     [HttpGet("currentUser")]
     public async Task<IActionResult> GetLoggedInUserInfo()
@@ -138,6 +155,7 @@ public class UsersController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = $"An error occurred: {ex.Message}" });
         }
     }
+
 
     [Authorize]
     [HttpPut("changeEmail")]

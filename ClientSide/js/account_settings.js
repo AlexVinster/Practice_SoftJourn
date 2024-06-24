@@ -268,7 +268,54 @@ async function ShowArtistInfo() {
     }
 }
 
+async function getBalance(userId, tokenSymbol) {
+    try {
+        const token = getToken(); 
+        const response = await fetch(`https://localhost:7018/api/Tokens/balance/${userId}/${tokenSymbol}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                showError('Unauthorized access. Please log in again.');
+            } else {
+                const errorData = await response.json();
+                const errorMessage = errorData.message || 'Failed to fetch balance';
+                console.error(`Server returned error: ${errorMessage}`);
+                showError(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+
+        const balanceData = await response.json();
+        console.log('Balance data:', balanceData);
+
+        const balanceElement = document.getElementById('userBalance');
+        balanceElement.textContent = `${balanceData.balance} ${tokenSymbol}`;
+
+        return balanceData;
+    } catch (error) {
+        console.error('Error getting balance:', error);
+        showError(error.message);
+        throw error;
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        const currentUser = await getCurrentUserInfo();
+        const userId = currentUser.userId;
+        const tokenSymbol = 'TNFT';
+
+        await getBalance(userId, tokenSymbol);
+    } catch (error) {
+        console.error('Error during DOMContentLoaded:', error);
+        showError('Error initializing page');
+    }
+    
     try {
         await ShowArtistInfo();
 
@@ -294,9 +341,21 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error getting current user data:', error);
         }
 
+        const userPage = document.getElementById("user-page");
+        try {
+            const currentUser = await getCurrentUserInfo();
+            const userId = currentUser.userId;
+            // Додано посилання 'Your page' при завантаженні DOM
+            userPage.innerHTML = `Your page: <a href="ownerpage.html?ownerId=${userId}">Link</a>`;
+        } catch (error) {
+            console.error('Error fetching current user info:', error);
+            showError('Failed to fetch user info');
+        }
+
         const become_button = document.getElementById("div_become_button");
 
         saveChangesBtn.addEventListener('click', async function () {
+
             try {
                 console.log('Save changes button clicked');
                 console.log('Current tab:', currentTab, 'Current tab id: ', currentTab.id);
@@ -403,7 +462,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         $('.list-group-item').on('shown.bs.tab', async function (event) {
             const target = $(event.target).attr("href");
             console.log('Target tab:', target);
-
+        
             if (target === '#account-artist') {
                 const currentUser = await getCurrentUserInfo();
                 const becomeButtonDiv = document.getElementById('div_become_button');
