@@ -33,7 +33,7 @@ async function adminLogin() {
   
       sessionStorage.setItem('token', data.token);
   
-      window.location.href = './admin-main.html';
+      window.location.href = './index.html';
     } catch (error) {
       const errorMessageElement = document.getElementById('error-message');
       errorMessageElement.classList.add('visible');

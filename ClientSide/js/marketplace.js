@@ -143,13 +143,4 @@ document.addEventListener("DOMContentLoaded", async function () {
         const artistData = await response.json();
         return artistData;
     }
-
-    // Налаштування обробника подій для кнопки застосування фільтрів
-    document.getElementById('applyFiltersButton').addEventListener('click', applyFilters);
-
-    // Налаштування обробника подій для скидання фільтрів
-    document.getElementById('resetFiltersButton').addEventListener('click', function () {
-        document.getElementById('filtersForm').reset();
-        updateArtworksContainer(originalNftsData);
-    });
 });

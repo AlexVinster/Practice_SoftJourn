@@ -79,7 +79,6 @@ namespace WebApplication1.Services
                 throw new ArgumentException("Artwork not found.");
             }
 
-            // Перевірка, чи вказаний користувач існує
             var buyer = await _userManager.FindByIdAsync(buyerId);
 
             if (buyer == null)
@@ -92,7 +91,6 @@ namespace WebApplication1.Services
                 throw new InvalidOperationException("Artwork is not for sale.");
             }
 
-            // Отримання токена, за який планується здійснити оплату
             var paymentToken = await _context.Tokens.FirstOrDefaultAsync(t => t.Symbol == paymentTokenSymbol);
 
             if (paymentToken == null)
@@ -100,27 +98,55 @@ namespace WebApplication1.Services
                 throw new ArgumentException("Payment token not found.");
             }
 
-            // Перевірка, чи користувач має достатньо коштів для купівлі
-            var userBalance = await _context.UserBalances.FirstOrDefaultAsync(ub => ub.UserId == buyerId && ub.Token.Symbol == paymentTokenSymbol);
+            var buyerBalance = await _context.UserBalances.FirstOrDefaultAsync(ub => ub.UserId == buyerId && ub.Token.Symbol == paymentTokenSymbol);
 
-            // Розрахунок вартості NFT в токенах на основі ціни в доларах та обмінного курсу токена
-            decimal priceInTokens = artwork.Price; // / paymentToken.ExchangeRateToDollars;
+            decimal priceInTokens = artwork.Price;
 
-            if (userBalance == null || userBalance.Balance < priceInTokens)
+            if (buyerBalance == null || buyerBalance.Balance < priceInTokens)
             {
                 throw new InvalidOperationException("Insufficient balance to buy artwork.");
             }
 
-            // Оновлення власника роботи та відмітка про продаж
+            var seller = await _userManager.FindByIdAsync(artwork.OwnerId);
+            if (seller == null)
+            {
+                throw new ArgumentException("Seller not found.");
+            }
+
+            var sellerBalance = await _context.UserBalances.FirstOrDefaultAsync(ub => ub.UserId == seller.Id && ub.Token.Symbol == paymentTokenSymbol);
+            if (sellerBalance == null)
+            {
+                sellerBalance = new UserBalance
+                {
+                    UserId = seller.Id,
+                    Token = paymentToken,
+                    Balance = 0
+                };
+                _context.UserBalances.Add(sellerBalance);
+            }
+
+            buyerBalance.Balance -= priceInTokens;
+            sellerBalance.Balance += priceInTokens;
+
             artwork.OwnerId = buyerId;
             artwork.IsSold = true;
+            artwork.ForSale = false;
 
-            // Віднімання вартості NFT з балансу користувача
-            userBalance.Balance -= priceInTokens;
+            await _context.SaveChangesAsync();
 
-            // Збереження змін в базі даних
+            var transaction = new Transaction
+            {
+                UserFromId = seller.Id,
+                UserToId = buyerId,
+                Token = paymentToken,
+                Amount = priceInTokens,
+                Timestamp = DateTime.UtcNow,
+            };
+
+            _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task SetArtworkForSale(int artworkId, string ownerId, decimal price)
         {

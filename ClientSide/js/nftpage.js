@@ -1,3 +1,31 @@
+// Function to display a success message
+function displaySuccessMessage(message) {
+  const messageContainer = document.createElement('div');
+  messageContainer.classList.add('success-message');
+  messageContainer.textContent = message;
+
+  document.body.appendChild(messageContainer);
+
+  // Automatically remove the message after 3 seconds
+  setTimeout(() => {
+    messageContainer.remove();
+  }, 3000);
+}
+
+// Function to display an error message
+function displayErrorMessage(message) {
+  const messageContainer = document.createElement('div');
+  messageContainer.classList.add('error-message');
+  messageContainer.textContent = message;
+
+  document.body.appendChild(messageContainer);
+
+  // Automatically remove the message after 3 seconds
+  setTimeout(() => {
+    messageContainer.remove();
+  }, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   const numberOfItems = 9;
   const container = document.querySelector(".morenft_cardrow");
@@ -5,6 +33,30 @@ document.addEventListener("DOMContentLoaded", async function () {
   const placeholderElement = document.getElementById('dynamicBackground');
   let buyerId = null;
   let nftIdForSale = null; // Variable to store the ID of the NFT being sold
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .success-message, .error-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+      font-family: Arial, sans-serif;
+      color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .success-message {
+      background-color: green;
+    }
+
+    .error-message {
+      background-color: red;
+    }
+  `;
+  document.head.appendChild(style);
 
   try {
     const currentUser = await getCurrentUserInfo();
@@ -144,7 +196,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               </div>
             </div>
             <button id="buyButton" class="nftartistinfo_button btn hvr-shrink">Buy NFT</button>
-            <button id="saleButton" class="nftartistinfo_button btn hvr-shrink" style="display: none;">Sell NFT</button>
+            <button id="saleButton-${nftId}" class="nftartistinfo_button btn hvr-shrink" style="display: none;">Sell NFT</button>
           </div>
           <div class="nftartistinfo_artistcard">
             <p class="base-mono">Created By</p>
@@ -174,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const modal = document.getElementById("modal-sell");
       const buyButton = document.getElementById("buyButton");
-      const saleButton = document.getElementById("saleButton");
+      const saleButton = document.getElementById(`saleButton-${nftId}`);
 
       if (currentUser.userId === nftOwnerId) {
         saleButton.style.display = "block";
@@ -265,21 +317,23 @@ document.addEventListener("DOMContentLoaded", async function () {
               alert("NFT listed for sale successfully!");
               modal.style.display = "none";
             } else {
-              return(console.log(error));
+              displayErrorMessage("Error listing NFT for sale.");
             }
           } catch (error) {
-            return(console.log(error));
+            displayErrorMessage("Error listing NFT for sale: " + error.message);
           }
         });
       }
     }
 
     if (!sellButtonPresent) {
-      const saleButton = document.getElementById("saleButton");
-      saleButton.style.display = "block";
-      saleButton.addEventListener("click", () => {
-        openSaleModal();
-      });
+      const saleButton = document.getElementById(`saleButton-${nftIdForSale}`);
+      if (saleButton) {
+        saleButton.style.display = "block";
+        saleButton.addEventListener("click", () => {
+          openSaleModal();
+        });
+      }
     }
 
   } catch (error) {

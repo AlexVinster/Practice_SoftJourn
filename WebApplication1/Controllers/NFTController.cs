@@ -51,7 +51,6 @@ public class NFTController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> AddArtwork([FromForm] ArtworkDto artworkDto)
     {
         if (artworkDto.Image == null)

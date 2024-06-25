@@ -10,10 +10,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     const addNftForm = document.getElementById('addNftForm');
     addNftForm.addEventListener('submit', async function (event) {
         event.preventDefault();
-        userId = currentUser.userId;
+        const userId = currentUser.userId;
         await addNFT(userId, artistId);
-        alert("NFT added succesfull");
+        alert("NFT added successfully");
     });
+
+    function getToken() {
+        return sessionStorage.getItem('token');
+    }
 
     async function getCurrentUserInfo() {
         try {
@@ -44,6 +48,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     async function fetchTokenSymbols() {
         try {
             const response = await fetch('https://localhost:7018/api/Tokens');
+            if (!response.ok) {
+                throw new Error('Failed to fetch token symbols');
+            }
             const tokenData = await response.json();
             const select = document.getElementById('tokenSymbol');
 
@@ -55,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         } catch (error) {
             console.error('Error fetching token symbols:', error);
+            showError('Failed to fetch token symbols');
         }
     }
 
@@ -95,28 +103,34 @@ async function addNFT(userId, artistId) {
         formData.append('isSold', nftData.isSold);
         formData.append('ownerId', nftData.ownerId);
         formData.append('image', blob, 'croppedImage.png');
+        
         try {
-            const response = await fetch('https://localhost:7018/api/NFT', {
+            const token = getToken();
+            const responseNFT = await fetch('https://localhost:7018/api/NFT', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${getToken()}`,
+                    'Authorization': `Bearer ${token}`
                 },
                 body: formData,
             });
 
-            if (response.ok) {
+            const responseData = await responseNFT.json();
+
+            if (responseNFT.ok) {
                 console.log('NFT added successfully.');
                 document.getElementById('addNftForm').reset();
             } else {
-                const responseData = await response.json();
                 console.error('NFT add failed:', responseData);
             }
         } catch (error) {
             console.error('Error adding NFT:', error);
-            if (response.status === 400) {
-                const responseData = await response.json();
-                console.error('Validation errors:', responseData.errors);
+            if (error.response && error.response.status === 400) {
+                console.error('Validation errors:', error.response.errors);
             }
         }
     }, 'image/png');
+}
+
+function showError(message) {
+    alert(`Error: ${message}`);
 }
